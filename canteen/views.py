@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from datetime import datetime
 from django.db.models import Q
-from adminpanel.models import MenuItem,OrderItem,Order,PaymentLog,Announcement
+from adminpanel.models import MenuItem,OrderItem,Order,PaymentLog
 from django.http import HttpResponse
 from django.template.loader import get_template
 from xhtml2pdf import pisa

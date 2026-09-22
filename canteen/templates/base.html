@@ -44,7 +44,7 @@ nav a { color: white; margin: 0 15px; text-decoration: none; font-weight: 500; }
             <!-- Right Side -->
             <div class=" ms-auto d-flex align-items-center gap-2 mt-3 mt-lg-0">
               {% if user.is_authenticated %}
-        <div class="me-2 fs-5">{{ user.first_name }} {{ user.last_name }}</div>
+        <div class="me-2 text-black fw-medium fs-5">{{ user.first_name }} {{ user.last_name }}</div>
         <form action="{% url 'logout' %}" method="post" class="d-flex gap-2 m-0 p-0">
             {% csrf_token %}
             <button type="submit" class="btn btn-outline-danger btn-sm fs-6">Logout</button>

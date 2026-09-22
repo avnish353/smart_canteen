@@ -1,5 +1,9 @@
 import os
+import pymysql
 from pathlib import Path
+from dotenv import load_dotenv
+
+load_dotenv()
 """
 Django settings for smart_canteen project.
 
@@ -100,7 +104,7 @@ DATABASES = {
         "NAME": os.environ.get("DB_NAME"),
         "USER": os.environ.get("DB_USER"),
         "PASSWORD": os.environ.get("DB_PASSWORD"),
-        "HOST": os.environ.get("DB_HOST"),
+        "HOST": os.environ.get("DB_HOST","127.0.0.1"),
         "PORT": os.environ.get("DB_PORT", "3306"),
         "OPTIONS": {
             "init_command": "SET sql_mode='STRICT_TRANS_TABLES'",
