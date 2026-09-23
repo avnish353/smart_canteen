@@ -1,34 +1,531 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>SmartCanteen Receipt</title>
+
     <style>
-        body { font-family: sans-serif; }
-        .box {
-            border: 2px solid #0a74da;
-            padding: 20px;
-            width: 400px;
-            margin: auto;
-            background: #f0f8ff;
-            border-radius: 8px;
+
+        * {
+            box-sizing: border-box;
         }
-        h2 { text-align: center; }
+
+        body {
+            margin: 0;
+            padding: 40px 15px;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background: #f4f7ff;
+            color: #222;
+        }
+
+
+        /* =========================
+           RECEIPT
+        ========================= */
+
+        .receipt {
+            width: 100%;
+            max-width: 520px;
+
+            margin: auto;
+
+            background: white;
+
+            border-radius: 18px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 8px 30px rgba(31, 63, 163, 0.12);
+        }
+
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        .receipt-header {
+            background: #4169E1;
+            color: white;
+
+            text-align: center;
+
+            padding: 28px 20px;
+        }
+
+        .receipt-header h1 {
+            margin: 0;
+
+            font-size: 25px;
+            font-weight: 800;
+        }
+
+        .receipt-header p {
+            margin: 6px 0 0;
+
+            font-size: 13px;
+
+            opacity: 0.9;
+        }
+
+
+        /* =========================
+           SUCCESS
+        ========================= */
+
+        .success {
+            text-align: center;
+
+            padding: 22px 20px 10px;
+        }
+
+        .success-icon {
+            width: 55px;
+            height: 55px;
+
+            margin: auto;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 50%;
+
+            background: #eaf8ef;
+
+            color: #28a745;
+
+            font-size: 28px;
+
+            font-weight: bold;
+        }
+
+        .success h2 {
+            margin: 12px 0 5px;
+
+            color: #1d2b53;
+
+            font-size: 20px;
+        }
+
+        .success p {
+            margin: 0;
+
+            color: #28a745;
+
+            font-size: 14px;
+
+            font-weight: 600;
+        }
+
+
+        /* =========================
+           CONTENT
+        ========================= */
+
+        .receipt-content {
+            padding: 20px 30px 30px;
+        }
+
+
+        /* =========================
+           ORDER INFO
+        ========================= */
+
+        .order-id {
+            background: #f1f5ff;
+
+            border-radius: 10px;
+
+            padding: 12px 15px;
+
+            margin-bottom: 20px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+        }
+
+        .order-id span:first-child {
+            color: #777;
+
+            font-size: 13px;
+        }
+
+        .order-id span:last-child {
+            color: #4169E1;
+
+            font-weight: 800;
+        }
+
+
+        /* =========================
+           DETAILS
+        ========================= */
+
+        .details {
+            margin-top: 10px;
+        }
+
+        .detail-row {
+            display: flex;
+
+            justify-content: space-between;
+
+            gap: 20px;
+
+            padding: 11px 0;
+
+            border-bottom: 1px solid #edf0f5;
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .label {
+            color: #777;
+
+            font-size: 14px;
+        }
+
+        .value {
+            color: #1d2b53;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            text-align: right;
+
+            word-break: break-word;
+        }
+
+
+        /* =========================
+           TOTAL
+        ========================= */
+
+        .total {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-top: 18px;
+
+            padding: 16px;
+
+            border-radius: 12px;
+
+            background: #4169E1;
+
+            color: white;
+        }
+
+        .total-label {
+            font-size: 15px;
+
+            font-weight: 600;
+        }
+
+        .total-amount {
+            font-size: 22px;
+
+            font-weight: 800;
+        }
+
+
+        /* =========================
+           DIVIDER
+        ========================= */
+
+        .divider {
+            border: 0;
+
+            border-top:
+                1px dashed #ccd3e5;
+
+            margin: 25px 0 20px;
+        }
+
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        .receipt-footer {
+            text-align: center;
+
+            color: #777;
+
+            font-size: 13px;
+
+            line-height: 1.6;
+        }
+
+        .receipt-footer strong {
+            color: #4169E1;
+        }
+
+        .footer-message {
+            margin-top: 5px;
+
+            color: #555;
+        }
+
+
+        /* =========================
+           PRINT
+        ========================= */
+
+        @media print {
+
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .receipt {
+                box-shadow: none;
+
+                max-width: 100%;
+
+                border-radius: 0;
+            }
+
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 500px) {
+
+            body {
+                padding: 20px 10px;
+            }
+
+            .receipt-content {
+                padding: 18px 20px 25px;
+            }
+
+            .detail-row {
+                flex-direction: column;
+                gap: 4px;
+            }
+
+            .value {
+                text-align: left;
+            }
+
+            .total {
+                padding: 14px;
+            }
+
+            .total-amount {
+                font-size: 20px;
+            }
+
+        }
+
     </style>
+
 </head>
+
+
 <body>
 
-<div class="box">
-    <h2>SmartCanteen Receipt</h2>
 
-    <p><strong>Name:</strong> {{ fullname }}</p>
-    <p><strong>Email:</strong> {{ email }}</p>
-    <p><strong>Phone:</strong> {{ phone }}</p>
-    <p><strong>Total Paid:</strong> ₹{{ amount }}</p>
-    <p><strong>Date:</strong> {{ date }}</p>
-    <p><strong>Time:</strong> {{ time }}</p>
+<div class="receipt">
 
-    <hr>
-    <p style="text-align:center;">Thank you for your order!</p>
+
+    <!-- =========================
+         HEADER
+    ========================= -->
+
+    <div class="receipt-header">
+
+        <h1>
+            🍽️ SmartCanteen
+        </h1>
+
+        <p>
+            Smart Ordering • Fresh Food • Easy Pickup
+        </p>
+
+    </div>
+
+
+    <!-- =========================
+         SUCCESS
+    ========================= -->
+
+    <div class="success">
+
+        <div class="success-icon">
+            ✓
+        </div>
+
+        <h2>
+            Payment Successful
+        </h2>
+
+        <p>
+            Your order has been placed successfully
+        </p>
+
+    </div>
+
+
+    <!-- =========================
+         CONTENT
+    ========================= -->
+
+    <div class="receipt-content">
+
+
+        <!-- ORDER ID -->
+
+        <div class="order-id">
+
+            <span>
+                Order ID
+            </span>
+
+            <span>
+                #{{ order_id }}
+            </span>
+
+        </div>
+
+
+        <!-- CUSTOMER DETAILS -->
+
+        <div class="details">
+
+            <div class="detail-row">
+
+                <span class="label">
+                    Customer Name
+                </span>
+
+                <span class="value">
+                    {{ fullname }}
+                </span>
+
+            </div>
+
+
+            <div class="detail-row">
+
+                <span class="label">
+                    Email
+                </span>
+
+                <span class="value">
+                    {{ email }}
+                </span>
+
+            </div>
+
+
+            <div class="detail-row">
+
+                <span class="label">
+                    Phone Number
+                </span>
+
+                <span class="value">
+                    {{ phone }}
+                </span>
+
+            </div>
+
+
+            <div class="detail-row">
+
+                <span class="label">
+                    Order Date
+                </span>
+
+                <span class="value">
+                    {{ date }}
+                </span>
+
+            </div>
+
+
+            <div class="detail-row">
+
+                <span class="label">
+                    Order Time
+                </span>
+
+                <span class="value">
+                    {{ time }}
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- TOTAL -->
+
+        <div class="total">
+
+            <span class="total-label">
+                Total Amount Paid
+            </span>
+
+            <span class="total-amount">
+                ₹{{ amount }}
+            </span>
+
+        </div>
+
+
+        <!-- DIVIDER -->
+
+        <hr class="divider">
+
+
+        <!-- FOOTER -->
+
+        <div class="receipt-footer">
+
+            <div>
+                Thank you for ordering with
+                <strong>SmartCanteen!</strong>
+            </div>
+
+            <div class="footer-message">
+                Please keep this receipt for your records.
+            </div>
+
+        </div>
+
+    </div>
+
 </div>
 
+
 </body>
+
 </html>
