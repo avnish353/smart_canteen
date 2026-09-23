@@ -1,99 +1,796 @@
 {% extends "base.html" %}
 
-{% block title %}My Orders{% endblock title %}   
+{% block title %}
+My Orders | SmartCanteen
+{% endblock title %}
+
+
+{% block extra_css %}
+
+<style>
+
+    /* =========================
+       PAGE
+    ========================= */
+
+    .orders-page {
+        min-height: 100vh;
+        background: #f8faff;
+        padding: 50px 20px 80px;
+    }
+
+    .orders-container {
+        max-width: 1050px;
+        margin: auto;
+    }
+
+
+    /* =========================
+       PAGE HEADER
+    ========================= */
+
+    .orders-page-header {
+        text-align: center;
+        margin-bottom: 45px;
+    }
+
+    .orders-badge {
+        display: inline-block;
+        background: #e8efff;
+        color: #4169E1;
+        padding: 8px 18px;
+        border-radius: 30px;
+        font-size: 13px;
+        font-weight: 700;
+        margin-bottom: 12px;
+    }
+
+    .orders-page-header h1 {
+        color: #1d2b53;
+        font-size: clamp(2rem, 5vw, 2.8rem);
+        font-weight: 800;
+        margin: 0 0 10px;
+    }
+
+    .orders-page-header h1 span {
+        color: #4169E1;
+    }
+
+    .orders-page-header p {
+        color: #777;
+        margin: 0;
+        font-size: 15px;
+    }
+
+
+    /* =========================
+       ORDER CARD
+    ========================= */
+
+    .order-card {
+        background: white;
+        border: 1px solid #edf0f7;
+        border-radius: 20px;
+        box-shadow: 0 6px 22px rgba(31, 63, 163, 0.08);
+        overflow: hidden;
+        margin-bottom: 25px;
+        transition: all 0.3s ease;
+    }
+
+    .order-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 14px 30px rgba(31, 63, 163, 0.13);
+    }
+
+
+    /* =========================
+       ORDER HEADER
+    ========================= */
+
+    .order-header {
+        background: linear-gradient(
+            135deg,
+            #4169E1,
+            #3155c7
+        );
+
+        color: white;
+        padding: 20px 25px;
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        gap: 15px;
+    }
+
+    .order-title {
+        display: flex;
+        align-items: center;
+        gap: 13px;
+    }
+
+    .order-icon {
+        width: 45px;
+        height: 45px;
+        border-radius: 12px;
+
+        background: rgba(255, 255, 255, 0.16);
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 19px;
+    }
+
+    .order-title h3 {
+        margin: 0;
+        font-size: 19px;
+        font-weight: 700;
+    }
+
+    .order-title p {
+        margin: 3px 0 0;
+        color: rgba(255, 255, 255, 0.78);
+        font-size: 12px;
+    }
+
+
+    /* =========================
+       ORDER STATUS
+    ========================= */
+
+    .order-status {
+        padding: 7px 13px;
+        border-radius: 20px;
+        background: white;
+        font-size: 12px;
+        font-weight: 700;
+        white-space: nowrap;
+    }
+
+    .status-picked {
+        color: #198754;
+    }
+
+    .status-pending {
+        color: #dc3545;
+    }
+
+    .status-preparing {
+        color: #d39e00;
+    }
+
+    .status-default {
+        color: #4169E1;
+    }
+
+
+    /* =========================
+       ORDER BODY
+    ========================= */
+
+    .order-body {
+        padding: 25px;
+    }
+
+
+    /* =========================
+       ORDER INFORMATION
+    ========================= */
+
+    .order-info-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+        margin-bottom: 25px;
+    }
+
+    .order-info {
+        background: #f8faff;
+        border: 1px solid #edf0f7;
+        border-radius: 12px;
+        padding: 14px 16px;
+    }
+
+    .order-info-label {
+        display: block;
+        color: #888;
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.7px;
+        margin-bottom: 5px;
+    }
+
+    .order-info-value {
+        color: #1d2b53;
+        font-size: 14px;
+        font-weight: 700;
+    }
+
+
+    /* =========================
+       PAYMENT
+    ========================= */
+
+    .payment-success {
+        color: #198754;
+    }
+
+    .payment-pending {
+        color: #d39e00;
+    }
+
+
+    /* =========================
+       TOTAL
+    ========================= */
+
+    .order-total {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        background: #eef3ff;
+        border-radius: 12px;
+
+        padding: 15px 18px;
+        margin-bottom: 20px;
+    }
+
+    .total-label {
+        color: #555;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .total-price {
+        color: #4169E1;
+        font-size: 20px;
+        font-weight: 800;
+    }
+
+
+    /* =========================
+       ORDER ITEMS
+    ========================= */
+
+    .items-title {
+        color: #1d2b53;
+        font-size: 15px;
+        font-weight: 700;
+        margin-bottom: 10px;
+    }
+
+    .order-items {
+        border: 1px solid #edf0f7;
+        border-radius: 12px;
+        overflow: hidden;
+        margin-bottom: 20px;
+    }
+
+    .order-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        padding: 13px 16px;
+
+        background: white;
+        border-bottom: 1px solid #edf0f7;
+
+        transition: background 0.2s ease;
+    }
+
+    .order-item:last-child {
+        border-bottom: none;
+    }
+
+    .order-item:hover {
+        background: #f8faff;
+    }
+
+    .item-name {
+        color: #333;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .quantity-badge {
+        background: #4169E1;
+        color: white;
+
+        min-width: 35px;
+        text-align: center;
+
+        padding: 5px 10px;
+        border-radius: 20px;
+
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+
+    /* =========================
+       REORDER
+    ========================= */
+
+    .order-footer {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .reorder-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+
+        background: white;
+        color: #4169E1;
+
+        border: 1.5px solid #4169E1;
+
+        padding: 9px 18px;
+        border-radius: 9px;
+
+        font-size: 13px;
+        font-weight: 700;
+
+        transition: all 0.25s ease;
+    }
+
+    .reorder-btn:hover {
+        background: #4169E1;
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 13px rgba(65, 105, 225, 0.22);
+    }
+
+
+    /* =========================
+       EMPTY ORDERS
+    ========================= */
+
+    .empty-orders {
+        background: white;
+        border: 1px solid #edf0f7;
+        border-radius: 20px;
+        padding: 65px 25px;
+        text-align: center;
+
+        box-shadow: 0 6px 22px rgba(31, 63, 163, 0.07);
+    }
+
+    .empty-icon {
+        width: 80px;
+        height: 80px;
+
+        margin: 0 auto 20px;
+
+        border-radius: 50%;
+
+        background: #e8efff;
+        color: #4169E1;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 32px;
+    }
+
+    .empty-orders h3 {
+        color: #1d2b53;
+        font-size: 21px;
+        font-weight: 700;
+        margin-bottom: 8px;
+    }
+
+    .empty-orders p {
+        color: #888;
+        margin-bottom: 25px;
+        font-size: 14px;
+    }
+
+    .add-items-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+
+        background: #4169E1;
+        color: white;
+
+        padding: 11px 22px;
+
+        border-radius: 9px;
+
+        text-decoration: none;
+
+        font-size: 14px;
+        font-weight: 700;
+
+        transition: all 0.25s ease;
+    }
+
+    .add-items-btn:hover {
+        background: #3155c7;
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(65, 105, 225, 0.25);
+    }
+
+
+    /* =========================
+       RESPONSIVE
+    ========================= */
+
+    @media (max-width: 800px) {
+
+        .order-info-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .order-body {
+            padding: 20px;
+        }
+
+    }
+
+
+    @media (max-width: 600px) {
+
+        .orders-page {
+            padding: 35px 15px 60px;
+        }
+
+        .orders-page-header {
+            margin-bottom: 30px;
+        }
+
+        .order-header {
+            padding: 18px;
+            align-items: flex-start;
+        }
+
+        .order-status {
+            font-size: 11px;
+        }
+
+        .order-body {
+            padding: 17px;
+        }
+
+        .order-total {
+            padding: 13px;
+        }
+
+        .total-price {
+            font-size: 18px;
+        }
+
+    }
+
+
+    @media (max-width: 480px) {
+
+        .order-header {
+            flex-direction: column;
+        }
+
+        .order-status {
+            align-self: flex-start;
+        }
+
+        .order-footer {
+            justify-content: stretch;
+        }
+
+        .reorder-btn {
+            width: 100%;
+            justify-content: center;
+        }
+
+    }
+
+</style>
+
+{% endblock extra_css %}
+
+
 {% block content %}
 
-<h2 class="text-center my-4">My Orders</h2>
+<div class="orders-page">
 
-<div class="container">
-    {% if orders %}
-    {% for order in orders %}
-        <div class="card mb-4 shadow-sm">
-            <div class="card-body">
-                <h4 class="card-title">Order #{{ order.id }}</h4>
-
-                <!-- ✅ Order Date & Time -->
-                <p class="mb-1 text-muted">
-                    <strong>Ordered On:</strong>
-                    {{ order.created_at|date:"d M Y, h:i A" }}
-                </p>
-
-                <!-- ✅ Payment Date & Time -->
-                {% with order.paymentlog_set.last as payment %}
-                    {% if payment %}
-                        <p class="mb-1 text-muted">
-                            <strong>Paid On:</strong>
-                            {{ payment.timestamp|date:"d M Y, h:i A" }}
-                            ({{ payment.method }})
-                        </p>
-                    {% else %}
-                        <p class="mb-1">
-                            <strong>Payment:</strong> <span class='text-warning'>Pending</span/>
-                        </p>
-                    {% endif %}
-                {% endwith %}
-
-                <p class="mb-1">
-    <strong>Status:</strong>
-
-    {% if order.status|lower == "picked up" %}
-        <span class="text-success fw-semibold">
-            <i class="bi bi-check-circle-fill"></i> Picked Up
-        </span>
-
-    {% elif order.status|lower == "pending" %}
-        <span class="text-danger fw-semibold">
-            <i class="bi bi-check-circle-fill"></i> Pending
-        </span>
-
-    {% elif order.status|lower == "preparing" %}
-        <span class="text-warning fw-semibold">
-            <i class="bi bi-x-circle-fill"></i> Preparing
-        </span>
-
-    {% else %}
-        <span class="text-warning fw-semibold">
-            {{ order.status }}
-        </span>
-    {% endif %}
-</p>
+    <div class="orders-container">
 
 
-                <p class="mb-3">
-                    <strong>Total:</strong> Rs {{ order.total_price }}
-                </p>
+        <!-- =========================
+             PAGE HEADER
+        ========================= -->
 
-                <ul class="list-group">
-                    {% for item in order.orderitem_set.all %}
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            {{ item.item.name }}
-                            <span class="badge bg-primary rounded-pill">
-                                x{{ item.quantity }}
-                            </span>
-                        </li>
-                    {% endfor %}
-                </ul>
+        <div class="orders-page-header">
+
+            <div class="orders-badge">
+                🧾 Your Order History
             </div>
 
-            <!-- Reorder button -->
-            <form method="post" action="{% url 'reorder' order.id %}" class="mt-2 ms-4 mb-2">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-outline-primary fs-7">
-                    REORDER >
-                </button>
-            </form>
+            <h1>
+                My <span>Orders</span>
+            </h1>
+
+            <p>
+                Track your previous orders and quickly reorder your favourites.
+            </p>
+
         </div>
-    {% endfor %}
-    {% else %}
-        <h4 class="text-center text-muted my-5">
-            You don't have any previous order!!
-        </h4>
-        <div class="text-center my-4">
-            <a href="{% url 'menu' %}" class="btn btn-warning btn-lg text-dark text-decoration-none">
-                Add items
-            </a>
-        </div>
-    {% endif %}
+
+
+        <!-- =========================
+             ORDERS
+        ========================= -->
+
+        {% if orders %}
+
+            {% for order in orders %}
+
+                <div class="order-card">
+
+
+                    <!-- =====================
+                         ORDER HEADER
+                    ====================== -->
+
+                    <div class="order-header">
+
+                        <div class="order-title">
+
+                            <div class="order-icon">
+                                🧾
+                            </div>
+
+                            <div>
+
+                                <h3>
+                                    Order #{{ order.id }}
+                                </h3>
+
+                                <p>
+                                    SmartCanteen Order
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- STATUS -->
+
+                        {% if order.status|lower == "picked up" %}
+
+                            <span class="order-status status-picked">
+                                ✓ Picked Up
+                            </span>
+
+                        {% elif order.status|lower == "pending" %}
+
+                            <span class="order-status status-pending">
+                                ● Pending
+                            </span>
+
+                        {% elif order.status|lower == "preparing" %}
+
+                            <span class="order-status status-preparing">
+                                ◐ Preparing
+                            </span>
+
+                        {% else %}
+
+                            <span class="order-status status-default">
+                                {{ order.status }}
+                            </span>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- =====================
+                         ORDER BODY
+                    ====================== -->
+
+                    <div class="order-body">
+
+
+                        <!-- ORDER INFORMATION -->
+
+                        <div class="order-info-grid">
+
+
+                            <!-- ORDER DATE -->
+
+                            <div class="order-info">
+
+                                <span class="order-info-label">
+                                    Ordered On
+                                </span>
+
+                                <span class="order-info-value">
+                                    {{ order.created_at|date:"d M Y, h:i A" }}
+                                </span>
+
+                            </div>
+
+
+                            <!-- PAYMENT -->
+
+                            <div class="order-info">
+
+                                <span class="order-info-label">
+                                    Payment
+                                </span>
+
+                                {% with order.paymentlog_set.last as payment %}
+
+                                    {% if payment %}
+
+                                        <span class="order-info-value payment-success">
+                                            ✓ Paid • {{ payment.method }}
+                                        </span>
+
+                                    {% else %}
+
+                                        <span class="order-info-value payment-pending">
+                                            ⏳ Pending
+                                        </span>
+
+                                    {% endif %}
+
+                                {% endwith %}
+
+                            </div>
+
+
+                            <!-- TOTAL -->
+
+                            <div class="order-info">
+
+                                <span class="order-info-label">
+                                    Total Amount
+                                </span>
+
+                                <span class="order-info-value">
+                                    ₹{{ order.total_price }}
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- PAYMENT DATE -->
+
+                        {% with order.paymentlog_set.last as payment %}
+
+                            {% if payment %}
+
+                                <div class="order-info mb-4">
+
+                                    <span class="order-info-label">
+                                        Paid On
+                                    </span>
+
+                                    <span class="order-info-value payment-success">
+                                        {{ payment.timestamp|date:"d M Y, h:i A" }}
+                                    </span>
+
+                                </div>
+
+                            {% endif %}
+
+                        {% endwith %}
+
+
+                        <!-- =====================
+                             ITEMS
+                        ====================== -->
+
+                        <div class="items-title">
+                            🍽️ Items in this order
+                        </div>
+
+
+                        <div class="order-items">
+
+                            {% for item in order.orderitem_set.all %}
+
+                                <div class="order-item">
+
+                                    <span class="item-name">
+                                        {{ item.item.name }}
+                                    </span>
+
+                                    <span class="quantity-badge">
+                                        ×{{ item.quantity }}
+                                    </span>
+
+                                </div>
+
+                            {% endfor %}
+
+                        </div>
+
+
+                        <!-- =====================
+                             REORDER
+                        ====================== -->
+
+                        <div class="order-footer">
+
+                            <form
+                                method="post"
+                                action="{% url 'reorder' order.id %}"
+                                class="m-0"
+                            >
+
+                                {% csrf_token %}
+
+                                <button
+                                    type="submit"
+                                    class="reorder-btn"
+                                >
+                                    🔄 Reorder
+                                </button>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+
+        {% else %}
+
+
+            <!-- =========================
+                 EMPTY STATE
+            ========================= -->
+
+            <div class="empty-orders">
+
+                <div class="empty-icon">
+                    🧾
+                </div>
+
+                <h3>
+                    No Orders Yet
+                </h3>
+
+                <p>
+                    You haven't placed any orders yet.
+                    Start exploring our menu and order something delicious!
+                </p>
+
+                <a
+                    href="{% url 'menu' %}"
+                    class="add-items-btn"
+                >
+                    🍴 Explore Menu
+                </a>
+
+            </div>
+
+
+        {% endif %}
+
+
+    </div>
+
 </div>
 
 {% endblock content %}
