@@ -1,41 +1,552 @@
 {% extends "base.html" %}
-{% block title %}Successful Payment{% endblock title %}
+
+{% block title %}
+Payment Successful | SmartCanteen
+{% endblock title %}
+
+{% block extra_css %}
+
+<style>
+
+    /* =========================
+       PAGE
+    ========================= */
+
+    .success-page {
+        min-height: calc(100vh - 70px);
+        background:
+            radial-gradient(
+                circle at top left,
+                rgba(65, 105, 225, 0.12),
+                transparent 35%
+            ),
+            radial-gradient(
+                circle at bottom right,
+                rgba(65, 105, 225, 0.10),
+                transparent 35%
+            ),
+            #f8faff;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        padding: 50px 20px;
+    }
+
+
+    /* =========================
+       SUCCESS CONTAINER
+    ========================= */
+
+    .success-container {
+        width: 100%;
+        max-width: 560px;
+        text-align: center;
+    }
+
+
+    /* =========================
+       SUCCESS ICON
+    ========================= */
+
+    .success-icon {
+        width: 85px;
+        height: 85px;
+
+        margin: 0 auto 18px;
+
+        border-radius: 50%;
+
+        background: #4169E1;
+        color: white;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 42px;
+
+        box-shadow:
+            0 10px 25px rgba(65, 105, 225, 0.30);
+
+        animation: successPop 0.6s ease;
+    }
+
+    @keyframes successPop {
+
+        0% {
+            transform: scale(0.5);
+            opacity: 0;
+        }
+
+        70% {
+            transform: scale(1.1);
+        }
+
+        100% {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+
+
+    /* =========================
+       HEADING
+    ========================= */
+
+    .success-container h1 {
+        color: #1d2b53;
+        font-size: 2.2rem;
+        font-weight: 800;
+        margin-bottom: 8px;
+    }
+
+    .success-message {
+        color: #28a745;
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 30px;
+    }
+
+
+    /* =========================
+       BILL
+    ========================= */
+
+    .bill-box {
+        background: white;
+
+        width: 100%;
+
+        padding: 30px;
+
+        border-radius: 20px;
+
+        border: 1px solid #e8edf8;
+
+        box-shadow:
+            0 10px 35px rgba(31, 63, 163, 0.12);
+
+        text-align: left;
+    }
+
+
+    /* =========================
+       BILL HEADER
+    ========================= */
+
+    .bill-header {
+        text-align: center;
+        padding-bottom: 20px;
+        border-bottom: 1px dashed #d8deed;
+        margin-bottom: 20px;
+    }
+
+    .bill-logo {
+        width: 55px;
+        height: 55px;
+
+        object-fit: cover;
+
+        border-radius: 50%;
+
+        margin-bottom: 8px;
+    }
+
+    .bill-header h2 {
+        color: #4169E1;
+        font-size: 1.5rem;
+        font-weight: 800;
+        margin: 0;
+    }
+
+    .bill-header p {
+        color: #888;
+        font-size: 13px;
+        margin: 4px 0 0;
+    }
+
+
+    /* =========================
+       BILL DETAILS
+    ========================= */
+
+    .bill-details {
+        margin-bottom: 20px;
+    }
+
+    .bill-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        padding: 11px 0;
+
+        border-bottom: 1px solid #f0f2f7;
+
+        gap: 20px;
+    }
+
+    .bill-row:last-child {
+        border-bottom: none;
+    }
+
+    .bill-label {
+        color: #777;
+        font-size: 14px;
+    }
+
+    .bill-value {
+        color: #1d2b53;
+        font-size: 14px;
+        font-weight: 600;
+        text-align: right;
+    }
+
+
+    /* =========================
+       AMOUNT
+    ========================= */
+
+    .amount-row {
+        background: #f1f5ff;
+
+        padding: 15px;
+
+        border-radius: 12px;
+
+        margin-top: 10px;
+    }
+
+    .amount-row .bill-label {
+        color: #4169E1;
+        font-weight: 700;
+    }
+
+    .amount-row .bill-value {
+        color: #4169E1;
+        font-size: 21px;
+        font-weight: 800;
+    }
+
+
+    /* =========================
+       THANK YOU
+    ========================= */
+
+    .thank-you {
+        text-align: center;
+
+        padding: 18px 0;
+
+        color: #666;
+
+        font-size: 14px;
+    }
+
+
+    /* =========================
+       BUTTONS
+    ========================= */
+
+    .success-actions {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+
+        margin-top: 20px;
+
+        flex-wrap: wrap;
+    }
+
+    .download-btn,
+    .orders-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+
+        padding: 11px 20px;
+
+        border-radius: 10px;
+
+        text-decoration: none;
+
+        font-weight: 600;
+
+        transition: all 0.25s ease;
+    }
+
+    .download-btn {
+        background: #4169E1;
+        color: white;
+
+        box-shadow:
+            0 6px 16px rgba(65, 105, 225, 0.25);
+    }
+
+    .download-btn:hover {
+        background: #3155c7;
+        color: white;
+        transform: translateY(-2px);
+    }
+
+    .orders-btn {
+        border: 1px solid #4169E1;
+        color: #4169E1;
+        background: white;
+    }
+
+    .orders-btn:hover {
+        background: #4169E1;
+        color: white;
+        transform: translateY(-2px);
+    }
+
+
+    /* =========================
+       RESPONSIVE
+    ========================= */
+
+    @media (max-width: 550px) {
+
+        .success-page {
+            padding: 35px 15px;
+        }
+
+        .success-container h1 {
+            font-size: 1.8rem;
+        }
+
+        .bill-box {
+            padding: 22px 18px;
+            border-radius: 16px;
+        }
+
+        .bill-row {
+            align-items: flex-start;
+        }
+
+        .success-actions {
+            flex-direction: column;
+        }
+
+        .download-btn,
+        .orders-btn {
+            width: 100%;
+        }
+    }
+
+</style>
+
+{% endblock extra_css %}
+
+
 {% block content %}
 
-<h2 style="text-align:center;">Payment Successful ✔</h2>
-<p style="text-align:center; color: green; font-size: 18px; margin-top: 10px;">
-    Your order has been placed ✔
-</p>
+<div class="success-page">
 
-<div class="bill-box">
-    <h3>SmartCanteen Bill</h3>
-     
-    <p><strong>Order ID:</strong> {{ order_id }}</p>
-    <p><strong>Name:</strong> {{ fullname }}</p>
-    <p><strong>Email:</strong> {{ email }}</p>
-    <p><strong>Phone:</strong> {{ phone }}</p>
-    <p><strong>Total Amount Paid:</strong> ₹{{ amount }}</p>
-    <p><strong>Order Date:</strong> {{ order_datetime|date:"d M Y" }}</p>
-    <p><strong>Order Time:</strong> {{ order_datetime|time:"h:i A" }}</p>
-    <hr>
-    <p>Thank you for ordering with SmartCanteen!</p>
-    <a href="{% url 'download_receipt' %}?name={{ fullname }}&email={{ email }}&phone={{ phone }}&amount={{ amount }}&date={{ order_datetime|date:'Y-m-d' }}&time={{ order_datetime|time:'H:i' }}" 
-   class="btn btn-primary" 
-   style="margin-top:15px; display:block; width:200px; text-align:center; margin:auto;">
-    Download Receipt <i class="fa-solid fa-download"></i>
-   </a>
+    <div class="success-container">
+
+        <!-- SUCCESS ICON -->
+
+        <div class="success-icon">
+            <i class="fa-solid fa-check"></i>
+        </div>
+
+
+        <!-- SUCCESS MESSAGE -->
+
+        <h1>
+            Payment Successful!
+        </h1>
+
+        <p class="success-message">
+            <i class="fa-solid fa-circle-check me-1"></i>
+            Your order has been placed successfully.
+        </p>
+
+
+        <!-- BILL -->
+
+        <div class="bill-box">
+
+            <!-- BILL HEADER -->
+
+            <div class="bill-header">
+
+                {% load static %}
+
+                <img
+                    src="{% static 'image/Scanteen.png' %}"
+                    alt="SmartCanteen Logo"
+                    class="bill-logo"
+                >
+
+                <h2>
+                    SmartCanteen
+                </h2>
+
+                <p>
+                    Order Receipt
+                </p>
+
+            </div>
+
+
+            <!-- BILL DETAILS -->
+
+            <div class="bill-details">
+
+                <div class="bill-row">
+
+                    <span class="bill-label">
+                        <i class="fa-solid fa-hashtag me-2"></i>
+                        Order ID
+                    </span>
+
+                    <span class="bill-value">
+                        #{{ order_id }}
+                    </span>
+
+                </div>
+
+
+                <div class="bill-row">
+
+                    <span class="bill-label">
+                        <i class="fa-solid fa-user me-2"></i>
+                        Name
+                    </span>
+
+                    <span class="bill-value">
+                        {{ fullname }}
+                    </span>
+
+                </div>
+
+
+                <div class="bill-row">
+
+                    <span class="bill-label">
+                        <i class="fa-solid fa-envelope me-2"></i>
+                        Email
+                    </span>
+
+                    <span class="bill-value">
+                        {{ email }}
+                    </span>
+
+                </div>
+
+
+                <div class="bill-row">
+
+                    <span class="bill-label">
+                        <i class="fa-solid fa-phone me-2"></i>
+                        Phone
+                    </span>
+
+                    <span class="bill-value">
+                        {{ phone }}
+                    </span>
+
+                </div>
+
+
+                <div class="bill-row">
+
+                    <span class="bill-label">
+                        <i class="fa-solid fa-calendar me-2"></i>
+                        Order Date
+                    </span>
+
+                    <span class="bill-value">
+                        {{ order_datetime|date:"d M Y" }}
+                    </span>
+
+                </div>
+
+
+                <div class="bill-row">
+
+                    <span class="bill-label">
+                        <i class="fa-solid fa-clock me-2"></i>
+                        Order Time
+                    </span>
+
+                    <span class="bill-value">
+                        {{ order_datetime|time:"h:i A" }}
+                    </span>
+
+                </div>
+
+
+                <!-- TOTAL -->
+
+                <div class="bill-row amount-row">
+
+                    <span class="bill-label">
+                        Total Paid
+                    </span>
+
+                    <span class="bill-value">
+                        ₹{{ amount }}
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- THANK YOU -->
+
+            <div class="thank-you">
+
+                <i class="fa-solid fa-heart"
+                   style="color:#4169E1;">
+                </i>
+
+                Thank you for ordering with
+                <strong>SmartCanteen!</strong>
+
+            </div>
+
+
+            <!-- ACTION BUTTONS -->
+
+            <div class="success-actions">
+
+                <a
+                    href="{% url 'download_receipt' %}?name={{ fullname }}&email={{ email }}&phone={{ phone }}&amount={{ amount }}&date={{ order_datetime|date:'Y-m-d' }}&time={{ order_datetime|time:'H:i' }}"
+                    class="download-btn"
+                >
+
+                    <i class="fa-solid fa-download"></i>
+
+                    Download Receipt
+
+                </a>
+
+
+                <a
+                    href="{% url 'customer_orders' %}"
+                    class="orders-btn"
+                >
+
+                    <i class="fa-solid fa-receipt"></i>
+
+                    My Orders
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
 
 </div>
 
-<style>
-.bill-box {
-    width: 400px;
-    margin: auto;
-    padding: 20px;
-    border: 2px solid #0a74da;
-    border-radius: 10px;
-    background: #f0f8ff;
-}
-</style>
-
-{% endblock %}
+{% endblock content %}
