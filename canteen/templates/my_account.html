@@ -1,58 +1,666 @@
 {% extends "base.html" %}
 
-{% block title %}My Account{% endblock %}
+{% block title %}My Account | SmartCanteen{% endblock %}
+
+{% block extra_css %}
+
+<style>
+
+    /* =========================
+       PAGE
+    ========================= */
+
+    .account-page {
+        min-height: 100vh;
+        background: #f8faff;
+        padding: 50px 20px 80px;
+    }
+
+    .account-container {
+        max-width: 1100px;
+        margin: auto;
+    }
+
+
+    /* =========================
+       PAGE HEADER
+    ========================= */
+
+    .account-header {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .account-badge {
+        display: inline-block;
+        background: #e8efff;
+        color: #4169E1;
+        padding: 8px 18px;
+        border-radius: 30px;
+        font-size: 13px;
+        font-weight: 700;
+        margin-bottom: 12px;
+    }
+
+    .account-header h1 {
+        color: #1d2b53;
+        font-size: clamp(2rem, 5vw, 2.8rem);
+        font-weight: 800;
+        margin: 0 0 10px;
+    }
+
+    .account-header h1 span {
+        color: #4169E1;
+    }
+
+    .account-header p {
+        color: #777;
+        margin: 0;
+        font-size: 15px;
+    }
+
+
+    /* =========================
+       PROFILE CARD
+    ========================= */
+
+    .profile-card {
+        background: white;
+        border: 1px solid #edf0f7;
+        border-radius: 20px;
+        box-shadow: 0 7px 25px rgba(31, 63, 163, 0.08);
+        overflow: hidden;
+        margin-bottom: 30px;
+        transition: all 0.3s ease;
+    }
+
+    .profile-card:hover {
+        box-shadow: 0 12px 30px rgba(31, 63, 163, 0.12);
+    }
+
+    .profile-header {
+        background: linear-gradient(
+            135deg,
+            #4169E1,
+            #3155c7
+        );
+        color: white;
+        padding: 25px 30px;
+        display: flex;
+        align-items: center;
+        gap: 18px;
+    }
+
+    .profile-icon {
+        width: 55px;
+        height: 55px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.18);
+        border: 2px solid rgba(255, 255, 255, 0.35);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+    }
+
+    .profile-header h2 {
+        font-size: 21px;
+        font-weight: 700;
+        margin: 0 0 3px;
+    }
+
+    .profile-header p {
+        margin: 0;
+        font-size: 13px;
+        color: rgba(255, 255, 255, 0.8);
+    }
+
+
+    /* =========================
+       PERSONAL INFO
+    ========================= */
+
+    .profile-body {
+        padding: 30px;
+    }
+
+    .info-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+    }
+
+    .info-item {
+        background: #f8faff;
+        border: 1px solid #edf0f7;
+        border-radius: 13px;
+        padding: 18px;
+        transition: all 0.25s ease;
+    }
+
+    .info-item:hover {
+        border-color: #cdd8ff;
+        background: #f4f7ff;
+        transform: translateY(-2px);
+    }
+
+    .info-label {
+        display: block;
+        color: #777;
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        margin-bottom: 7px;
+    }
+
+    .info-value {
+        color: #1d2b53;
+        font-size: 16px;
+        font-weight: 700;
+        word-break: break-word;
+    }
+
+
+    /* =========================
+       ORDERS CARD
+    ========================= */
+
+    .orders-card {
+        background: white;
+        border: 1px solid #edf0f7;
+        border-radius: 20px;
+        box-shadow: 0 7px 25px rgba(31, 63, 163, 0.08);
+        overflow: hidden;
+    }
+
+    .orders-header {
+        background: linear-gradient(
+            135deg,
+            #4169E1,
+            #3155c7
+        );
+        color: white;
+        padding: 23px 30px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 15px;
+    }
+
+    .orders-header-left {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+    }
+
+    .orders-icon {
+        width: 45px;
+        height: 45px;
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.16);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 19px;
+    }
+
+    .orders-header h2 {
+        font-size: 20px;
+        font-weight: 700;
+        margin: 0;
+    }
+
+    .orders-header p {
+        margin: 3px 0 0;
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.8);
+    }
+
+
+    /* =========================
+       ORDER COUNT
+    ========================= */
+
+    .order-count {
+        background: white;
+        color: #4169E1;
+        padding: 7px 13px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 700;
+        white-space: nowrap;
+    }
+
+
+    /* =========================
+       TABLE
+    ========================= */
+
+    .orders-body {
+        padding: 25px 30px 30px;
+    }
+
+    .orders-table {
+        margin: 0;
+        border-collapse: separate;
+        border-spacing: 0 8px;
+    }
+
+    .orders-table thead th {
+        color: #777;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.7px;
+        font-weight: 700;
+        border: none;
+        padding: 12px 15px;
+        background: #f8faff;
+    }
+
+    .orders-table tbody tr {
+        transition: all 0.25s ease;
+    }
+
+    .orders-table tbody tr:hover {
+        transform: scale(1.005);
+    }
+
+    .orders-table tbody td {
+        background: white;
+        border-top: 1px solid #edf0f7;
+        border-bottom: 1px solid #edf0f7;
+        padding: 15px;
+        color: #444;
+        font-size: 14px;
+    }
+
+    .orders-table tbody td:first-child {
+        border-left: 1px solid #edf0f7;
+        border-radius: 10px 0 0 10px;
+    }
+
+    .orders-table tbody td:last-child {
+        border-right: 1px solid #edf0f7;
+        border-radius: 0 10px 10px 0;
+    }
+
+    .order-id {
+        color: #4169E1;
+        font-weight: 800;
+    }
+
+    .order-price {
+        color: #1d2b53;
+        font-weight: 800;
+    }
+
+
+    /* =========================
+       STATUS
+    ========================= */
+
+    .status-badge {
+        display: inline-block;
+        background: #e8efff;
+        color: #4169E1;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+
+    /* =========================
+       EMPTY ORDERS
+    ========================= */
+
+    .empty-orders {
+        text-align: center;
+        padding: 55px 20px;
+    }
+
+    .empty-icon {
+        width: 70px;
+        height: 70px;
+        margin: 0 auto 18px;
+        border-radius: 50%;
+        background: #e8efff;
+        color: #4169E1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;
+    }
+
+    .empty-orders h3 {
+        color: #1d2b53;
+        font-size: 20px;
+        font-weight: 700;
+        margin-bottom: 8px;
+    }
+
+    .empty-orders p {
+        color: #888;
+        margin: 0;
+        font-size: 14px;
+    }
+
+
+    /* =========================
+       RESPONSIVE
+    ========================= */
+
+    @media (max-width: 800px) {
+
+        .info-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .profile-body,
+        .orders-body {
+            padding: 22px;
+        }
+
+        .profile-header,
+        .orders-header {
+            padding: 22px;
+        }
+
+    }
+
+
+    @media (max-width: 600px) {
+
+        .account-page {
+            padding: 35px 15px 60px;
+        }
+
+        .account-header {
+            margin-bottom: 30px;
+        }
+
+        .account-header h1 {
+            font-size: 2rem;
+        }
+
+        .profile-header {
+            align-items: flex-start;
+        }
+
+        .orders-header {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .orders-header-left {
+            width: 100%;
+        }
+
+        .order-count {
+            align-self: flex-start;
+        }
+
+        .orders-body {
+            padding: 15px;
+        }
+
+    }
+
+</style>
+
+{% endblock extra_css %}
+
 
 {% block content %}
 
-<div class="container my-5">
-    <h2 class="mb-4 text-center">My Account</h2>
+<div class="account-page">
 
-    <!-- Personal Information Card -->
-    <div class="card mb-4 shadow-sm">
-        <div class="card-header bg-primary text-white">
-            <h5 class="mb-0">Personal Information</h5>
-        </div>
-        <div class="card-body">
-            <p><strong>Name:</strong> {{ user.get_full_name }}</p>
-            <p><strong>Email:</strong> {{ user.email }}</p>
-            <p><strong>Mobile Number:</strong> {{ mobile|default:"Not provided" }}</p>
-        </div>
-    </div>
+    <div class="account-container">
 
-    <!-- Past Orders Table -->
-    <div class="card shadow-sm">
-        <div class="card-header bg-primary text-white">
-            <h5 class="mb-0">Past Orders</h5>
+
+        <!-- =========================
+             PAGE HEADER
+        ========================= -->
+
+        <div class="account-header">
+
+            <h1>
+                My <span>Account</span>
+            </h1>
+
+            <p>
+                Manage your personal information and view your order history.
+            </p>
+
         </div>
-        <div class="card-body">
-            {% if orders %}
-                <div class="table-responsive">
-                    <table class="table table-striped table-bordered align-middle">
-                        <thead class="table-primary">
-                            <tr>
-                                <th scope="col">Order ID</th>
-                                <th scope="col">Date</th>
-                                <th scope="col">Total Amount</th>
-                                <th scope="col">Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for order in orders %}
-                                <tr>
-                                    <td>{{ order.id }}</td>
-                                    <td>{{ order.timestamp|date:"d M Y, H:i" }}</td>
-                                    <td>₹{{ order.total_price }}</td>
-                                    <td><span class="badge bg-primary">{{ order.status }}</span></td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+
+
+        <!-- =========================
+             PERSONAL INFORMATION
+        ========================= -->
+
+        <div class="profile-card">
+
+            <div class="profile-header">
+
+                <div>
+                    <h2>
+                        Personal Information
+                    </h2>
+
+                    <p>
+                        Your SmartCanteen account details
+                    </p>
                 </div>
-            {% else %}
-                <p class="text-muted text-center">You have no past orders.</p>
-            {% endif %}
+
+            </div>
+
+
+            <div class="profile-body">
+
+                <div class="info-grid">
+
+
+                    <!-- NAME -->
+
+                    <div class="info-item">
+
+                        <span class="info-label">
+                            Full Name
+                        </span>
+
+                        <div class="info-value">
+                            {{ user.get_full_name|default:"Not provided" }}
+                        </div>
+
+                    </div>
+
+
+                    <!-- EMAIL -->
+
+                    <div class="info-item">
+
+                        <span class="info-label">
+                            Email Address
+                        </span>
+
+                        <div class="info-value">
+                            {{ user.email|default:"Not provided" }}
+                        </div>
+
+                    </div>
+
+
+                    <!-- MOBILE -->
+
+                    <div class="info-item">
+
+                        <span class="info-label">
+                            Mobile Number
+                        </span>
+
+                        <div class="info-value">
+                            {{ mobile|default:"Not provided" }}
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
         </div>
+
+
+        <!-- =========================
+             PAST ORDERS
+        ========================= -->
+
+        <div class="orders-card">
+
+
+            <!-- ORDERS HEADER -->
+
+            <div class="orders-header">
+
+                <div class="orders-header-left">
+
+                    <div class="orders-icon">
+                        🧾
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            Past Orders
+                        </h2>
+
+                        <p>
+                            Your previous SmartCanteen orders
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                {% if orders %}
+
+                    <div class="order-count">
+                        {{ orders|length }}
+                        Order{% if orders|length != 1 %}s{% endif %}
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- ORDERS BODY -->
+
+            <div class="orders-body">
+
+                {% if orders %}
+
+                    <div class="table-responsive">
+
+                        <table class="table orders-table align-middle">
+
+                            <thead>
+
+                                <tr>
+
+                                    <th scope="col">
+                                        Order ID
+                                    </th>
+
+                                    <th scope="col">
+                                        Date
+                                    </th>
+
+                                    <th scope="col">
+                                        Total Amount
+                                    </th>
+
+                                    <th scope="col">
+                                        Status
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody>
+
+                                {% for order in orders %}
+
+                                    <tr>
+
+                                        <td>
+                                            <span class="order-id">
+                                                #{{ order.id }}
+                                            </span>
+                                        </td>
+
+                                        <td>
+                                            {{ order.timestamp|date:"d M Y, H:i" }}
+                                        </td>
+
+                                        <td>
+                                            <span class="order-price">
+                                                ₹{{ order.total_price }}
+                                            </span>
+                                        </td>
+
+                                        <td>
+
+                                            <span class="status-badge">
+                                                {{ order.status }}
+                                            </span>
+
+                                        </td>
+
+                                    </tr>
+
+                                {% endfor %}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+
+                {% else %}
+
+                    <div class="empty-orders">
+
+                        <div class="empty-icon">
+                            🧾
+                        </div>
+
+                        <h3>
+                            No Orders Yet
+                        </h3>
+
+                        <p>
+                            You haven't placed any orders yet.
+                            Your orders will appear here.
+                        </p>
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
     </div>
+
 </div>
 
-{% endblock %}
+{% endblock content %}
