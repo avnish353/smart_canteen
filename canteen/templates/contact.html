@@ -1,125 +1,707 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}Contact Us{% endblock %}
+{% block title %}
+Contact Us | SmartCanteen
+{% endblock title %}
+
+
+{% block extra_css %}
+
+<style>
+
+    /* =========================
+       PAGE
+    ========================= */
+
+    .contact-page {
+        min-height: 100vh;
+        background: #f8faff;
+        padding: 55px 20px 80px;
+    }
+
+    .contact-container {
+        max-width: 1100px;
+        margin: auto;
+    }
+
+
+    /* =========================
+       HEADER
+    ========================= */
+
+    .contact-header {
+        text-align: center;
+        margin-bottom: 45px;
+    }
+
+    .contact-badge {
+        display: inline-block;
+        background: #e8efff;
+        color: #4169E1;
+        padding: 8px 18px;
+        border-radius: 30px;
+        font-size: 13px;
+        font-weight: 700;
+        margin-bottom: 15px;
+    }
+
+    .contact-logo {
+        width: 75px;
+        height: 75px;
+        object-fit: cover;
+        border-radius: 50%;
+        background: white;
+        padding: 3px;
+        box-shadow: 0 6px 18px rgba(31, 63, 163, 0.15);
+        margin-bottom: 15px;
+    }
+
+    .contact-header h1 {
+        color: #1d2b53;
+        font-size: clamp(2rem, 5vw, 2.8rem);
+        font-weight: 800;
+        margin: 0 0 10px;
+    }
+
+    .contact-header h1 span {
+        color: #4169E1;
+    }
+
+    .contact-header p {
+        color: #777;
+        font-size: 15px;
+        margin: 0;
+    }
+
+
+    /* =========================
+       MESSAGE
+    ========================= */
+
+    .contact-message {
+        max-width: 850px;
+        margin: 0 auto 30px;
+    }
+
+
+    /* =========================
+       MAIN GRID
+    ========================= */
+
+    .contact-grid {
+        display: grid;
+        grid-template-columns: 0.9fr 1.1fr;
+        gap: 30px;
+        align-items: stretch;
+    }
+
+
+    /* =========================
+       INFORMATION CARD
+    ========================= */
+
+    .contact-info-card {
+        background: white;
+        border-radius: 20px;
+        padding: 30px;
+        border: 1px solid #edf0f7;
+        box-shadow: 0 7px 25px rgba(31, 63, 163, 0.08);
+    }
+
+    .contact-info-card h2 {
+        color: #1d2b53;
+        font-size: 22px;
+        font-weight: 800;
+        margin-bottom: 8px;
+    }
+
+    .contact-info-card > p {
+        color: #777;
+        font-size: 14px;
+        line-height: 1.6;
+        margin-bottom: 25px;
+    }
+
+
+    /* =========================
+       INFO BOX
+    ========================= */
+
+    .info-box {
+        display: flex;
+        align-items: flex-start;
+        gap: 15px;
+
+        padding: 15px;
+        margin-bottom: 14px;
+
+        background: #f8faff;
+        border: 1px solid #edf0f7;
+        border-radius: 13px;
+
+        transition: all 0.25s ease;
+    }
+
+    .info-box:hover {
+        background: #eef3ff;
+        transform: translateX(4px);
+    }
+
+    .info-icon {
+        width: 42px;
+        height: 42px;
+        flex-shrink: 0;
+
+        background: #e8efff;
+        color: #4169E1;
+
+        border-radius: 10px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 17px;
+    }
+
+    .info-content {
+        flex: 1;
+    }
+
+    .info-content h4 {
+        color: #1d2b53;
+        font-size: 13px;
+        font-weight: 700;
+        margin: 0 0 4px;
+    }
+
+    .info-content p {
+        color: #666;
+        font-size: 13px;
+        line-height: 1.5;
+        margin: 0;
+    }
+
+
+    /* =========================
+       SOCIAL MEDIA
+    ========================= */
+
+    .social-section {
+        margin-top: 25px;
+        padding-top: 22px;
+        border-top: 1px solid #edf0f7;
+    }
+
+    .social-section h4 {
+        color: #1d2b53;
+        font-size: 14px;
+        font-weight: 700;
+        margin-bottom: 13px;
+    }
+
+    .social-icons {
+        display: flex;
+        gap: 10px;
+    }
+
+    .social-icons a {
+        width: 40px;
+        height: 40px;
+
+        border-radius: 10px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        background: #eef3ff;
+        color: #4169E1;
+
+        text-decoration: none;
+
+        font-size: 17px;
+
+        transition: all 0.25s ease;
+    }
+
+    .social-icons a:hover {
+        background: #4169E1;
+        color: white;
+        transform: translateY(-3px);
+        box-shadow: 0 5px 12px rgba(65, 105, 225, 0.25);
+    }
+
+
+    /* =========================
+       FORM CARD
+    ========================= */
+
+    .contact-form-card {
+        background: white;
+        border-radius: 20px;
+        padding: 30px;
+
+        border: 1px solid #edf0f7;
+
+        box-shadow: 0 7px 25px rgba(31, 63, 163, 0.08);
+    }
+
+    .contact-form-card h2 {
+        color: #1d2b53;
+        font-size: 22px;
+        font-weight: 800;
+        margin-bottom: 8px;
+    }
+
+    .contact-form-card > p {
+        color: #777;
+        font-size: 14px;
+        margin-bottom: 25px;
+    }
+
+
+    /* =========================
+       FORM
+    ========================= */
+
+    .form-group {
+        margin-bottom: 17px;
+    }
+
+    .form-group label {
+        display: block;
+        color: #333;
+        font-size: 13px;
+        font-weight: 600;
+        margin-bottom: 7px;
+    }
+
+    .form-control-custom {
+        width: 100%;
+        padding: 12px 14px;
+
+        background: #fafbff;
+
+        border: 1.5px solid #dfe5f2;
+        border-radius: 10px;
+
+        outline: none;
+
+        color: #333;
+        font-size: 14px;
+
+        transition: all 0.25s ease;
+    }
+
+    .form-control-custom::placeholder {
+        color: #aaa;
+    }
+
+    .form-control-custom:focus {
+        background: white;
+        border-color: #4169E1;
+        box-shadow: 0 0 0 3px rgba(65, 105, 225, 0.10);
+    }
+
+    textarea.form-control-custom {
+        min-height: 130px;
+        resize: vertical;
+    }
+
+
+    /* =========================
+       SEND BUTTON
+    ========================= */
+
+    .send-btn {
+        width: 100%;
+
+        border: none;
+        border-radius: 10px;
+
+        padding: 12px 20px;
+
+        background: #4169E1;
+        color: white;
+
+        font-size: 15px;
+        font-weight: 700;
+
+        cursor: pointer;
+
+        transition: all 0.25s ease;
+
+        box-shadow: 0 6px 15px rgba(65, 105, 225, 0.22);
+    }
+
+    .send-btn:hover {
+        background: #3155c7;
+        transform: translateY(-2px);
+        box-shadow: 0 9px 20px rgba(65, 105, 225, 0.28);
+    }
+
+
+    /* =========================
+       RESPONSIVE
+    ========================= */
+
+    @media (max-width: 850px) {
+
+        .contact-grid {
+            grid-template-columns: 1fr;
+        }
+
+    }
+
+
+    @media (max-width: 550px) {
+
+        .contact-page {
+            padding: 35px 15px 60px;
+        }
+
+        .contact-header {
+            margin-bottom: 30px;
+        }
+
+        .contact-logo {
+            width: 65px;
+            height: 65px;
+        }
+
+        .contact-info-card,
+        .contact-form-card {
+            padding: 22px;
+            border-radius: 16px;
+        }
+
+    }
+
+</style>
+
+{% endblock extra_css %}
+
 
 {% block content %}
 
-<div class="contact-container">
-{% if messages %}
-   {% for message in messages %}
-    <div class="alert alert-info alert-dismissible fade show" role="alert">
-     {{ message }}
-     <button type="button" class="btn-close" data-bs-dismiss="alert"  aria-label="Close"></button> 
+<div class="contact-page">
+
+    <div class="contact-container">
+
+
+        <!-- =========================
+             HEADER
+        ========================= -->
+
+        <div class="contact-header">
+
+            <div class="contact-badge">
+                💬 We'd Love To Hear From You
+            </div>
+
+            <br>
+
+            <img
+                src="{% static 'image/Scanteen.png' %}"
+                alt="SmartCanteen Logo"
+                class="contact-logo"
+            >
+
+            <h1>
+                Contact <span>SmartCanteen</span>
+            </h1>
+
+            <p>
+                Have a question, suggestion, or feedback?
+                We're here to help!
+            </p>
+
+        </div>
+
+
+        <!-- =========================
+             MESSAGES
+        ========================= -->
+
+        {% if messages %}
+
+            <div class="contact-message">
+
+                {% for message in messages %}
+
+                    <div
+                        class="alert alert-info alert-dismissible fade show"
+                        role="alert"
+                    >
+
+                        {{ message }}
+
+                        <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="alert"
+                            aria-label="Close"
+                        ></button>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% endif %}
+
+
+        <!-- =========================
+             MAIN CONTENT
+        ========================= -->
+
+        <div class="contact-grid">
+
+
+            <!-- =====================
+                 CONTACT INFORMATION
+            ====================== -->
+
+            <div class="contact-info-card">
+
+                <h2>
+                    Get In Touch
+                </h2>
+
+                <p>
+                    You can reach us using the information below.
+                    We are happy to assist you with your SmartCanteen
+                    experience.
+                </p>
+
+
+                <!-- LOCATION -->
+
+                <div class="info-box">
+
+                    <div class="info-icon">
+                        <i class="fa-solid fa-location-dot"></i>
+                    </div>
+
+                    <div class="info-content">
+
+                        <h4>
+                            Our Location
+                        </h4>
+
+                        <p>
+                            Mahakal Institute of Technology,
+                            MIT Campus,<br>
+                            Behind Air Strip, Dewas Road,<br>
+                            Ujjain, Madhya Pradesh - 456010
+                            (India)
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- EMAIL -->
+
+                <div class="info-box">
+
+                    <div class="info-icon">
+                        <i class="fa-solid fa-envelope"></i>
+                    </div>
+
+                    <div class="info-content">
+
+                        <h4>
+                            Email
+                        </h4>
+
+                        <p>
+                            smartcanteen2025@gmail.com
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PHONE -->
+
+                <div class="info-box">
+
+                    <div class="info-icon">
+                        <i class="fa-solid fa-phone"></i>
+                    </div>
+
+                    <div class="info-content">
+
+                        <h4>
+                            Phone
+                        </h4>
+
+                        <p>
+                            +91 558 955 4885
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SOCIAL -->
+
+                <div class="social-section">
+
+                    <h4>
+                        Follow Us
+                    </h4>
+
+                    <div class="social-icons">
+
+                        <a href="#" aria-label="X">
+                            <i class="fa-brands fa-x-twitter"></i>
+                        </a>
+
+                        <a href="#" aria-label="Meta">
+                            <i class="fa-brands fa-meta"></i>
+                        </a>
+
+                        <a href="#" aria-label="Instagram">
+                            <i class="fa-brands fa-instagram"></i>
+                        </a>
+
+                        <a href="#" aria-label="LinkedIn">
+                            <i class="fa-brands fa-linkedin-in"></i>
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =====================
+                 CONTACT FORM
+            ====================== -->
+
+            <div class="contact-form-card">
+
+                <h2>
+                    Send Us a Message
+                </h2>
+
+                <p>
+                    Fill in the form below and we'll get back to you.
+                </p>
+
+
+                <form method="POST">
+
+                    {% csrf_token %}
+
+
+                    <!-- NAME -->
+
+                    <div class="form-group">
+
+                        <label for="name">
+                            Your Name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            class="form-control-custom"
+                            placeholder="Enter your name"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- EMAIL -->
+
+                    <div class="form-group">
+
+                        <label for="email">
+                            Your Email
+                        </label>
+
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            class="form-control-custom"
+                            placeholder="Enter your email"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- PHONE -->
+
+                    <div class="form-group">
+
+                        <label for="phone">
+                            Phone Number
+                        </label>
+
+                        <input
+                            type="tel"
+                            id="phone"
+                            name="phone"
+                            class="form-control-custom"
+                            placeholder="Enter your phone number"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- MESSAGE -->
+
+                    <div class="form-group">
+
+                        <label for="message">
+                            Message
+                        </label>
+
+                        <textarea
+                            id="message"
+                            name="message"
+                            class="form-control-custom"
+                            placeholder="Write your message here..."
+                            rows="5"
+                            required
+                        ></textarea>
+
+                    </div>
+
+
+                    <!-- BUTTON -->
+
+                    <button
+                        type="submit"
+                        class="send-btn"
+                    >
+                        <i class="fa-solid fa-paper-plane me-2"></i>
+                        Send Message
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
     </div>
-   {% endfor %}
-  {% endif %}
-    <div class="contact-header">
-        <img src="{% static 'image/Scanteen.png' %}" class="contact-logo">
-        <h2>Smart Canteen</h2>
-        <p>We'd love to hear from you!</p>
-    </div>
 
-    <div class="contact-info">
-
-        <div class="info-box">
-            <i class="fa-solid fa-location-dot icon"></i>
-            <p>Mahakal Institute of Technology,MIT Campus<br>
-            Behind Air Strip, Dewas Road, Ujjain, Madhya Pradesh - 456010 (India)</p>
-        </div>
-
-        <div class="info-box">
-            <i class="fa fa-envelope icon"></i>
-            <p>smartcanteen2025@gmail.com</p>
-        </div>
-
-        <div class="info-box">
-            <i class="fa fa-phone icon"></i>
-            <p>+91  558 955 4885</p>
-        </div>
-
-        <div class="social-icons">
-            <i class="fa-brands fa-x-twitter"></i>
-            <i class="fa-brands fa-meta"></i>
-            <i class="fa-brands fa-square-instagram"></i>
-            <i class="fa-brands fa-linkedin"></i>
-        </div>
-    </div>
-
-    <form method="POST" class="contact-form">
-        {% csrf_token %}
-        <input type="text" name="name" placeholder="Your Name" required>
-        <input type="email" name="email" placeholder="Your Email" required>
-        <input type="text" name="phone" placeholder="Phone Number" required>
-        <textarea name="message" placeholder="Message" rows="4" required></textarea>
-
-        <button type="submit" class="send-btn">Send Message</button>
-    </form>
 </div>
 
-<style>
-.contact-container {
-    width: 90%;
-    max-width: 600px;
-    margin: auto;
-    padding: 20px;
-}
-
-.contact-header {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.contact-logo {
-    width: 90px;
-    margin-bottom: 10px;
-}
-
-.contact-info .info-box {
-    display: flex;
-    align-items: center;
-    margin-bottom: 15px;
-    font-size: 15px;
-}
-
-.icon {
-    color: blue;
-    font-size: 24px;
-    margin-right: 12px;
-    margin-bottom:14px;
-}
-
-.social-icons i {
-    margin-right: 12px;
-    font-size: 22px;
-    color: blue;
-    cursor:pointer;
-}
-
-.contact-form input,
-.contact-form textarea {
-    width: 100%;
-    padding: 12px;
-    margin: 8px 0;
-    border: 1px solid blue;
-    border-radius: 5px;
-    outline: none;
-}
-
-.contact-form input:focus,
-.contact-form textarea:focus {
-    border-color: #007bff;
-}
-
-.send-btn {
-    width: 100%;
-    padding: 12px;
-    background: blue;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    font-size: 18px;
-}
-</style>
-
-{% endblock %}
+{% endblock content %}
