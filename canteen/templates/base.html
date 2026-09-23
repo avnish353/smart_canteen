@@ -1,73 +1,541 @@
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>{% block title %}{% endblock title %}</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<style>
-body { font-family: 'Poppins', sans-serif; margin: 0; background: #fafafa; }
-header { padding: 20px 50px; background: #0a74da; color: white; }
-nav a { color: white; margin: 0 15px; text-decoration: none; font-weight: 500; }
-</style>
-{% block extra_css %}{% endblock extra_css %}
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        {% block title %}SmartCanteen{% endblock title %}
+    </title>
+
+    <!-- Bootstrap -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- Font Awesome -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    >
+
+    <style>
+
+        /* =========================
+           GLOBAL
+        ========================= */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', Arial, sans-serif;
+            margin: 0;
+            background: #f8faff;
+            color: #222;
+        }
+
+        /* =========================
+           NAVBAR
+        ========================= */
+
+        .smart-navbar {
+            background: #4169E1;
+            padding: 10px 0;
+            box-shadow: 0 4px 18px rgba(31, 63, 163, 0.18);
+            position: relative;
+            z-index: 1000;
+        }
+
+        .navbar-container {
+            max-width: 1400px;
+            margin: auto;
+            padding: 0 25px;
+        }
+
+        /* =========================
+           BRAND
+        ========================= */
+
+        .brand-wrapper {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            margin-right: 35px;
+        }
+
+        .brand-logo {
+            width: 46px;
+            height: 46px;
+            object-fit: cover;
+            border-radius: 50%;
+            background: white;
+            padding: 2px;
+            margin-right: 9px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .brand-name {
+            color: white;
+            font-size: 1.45rem;
+            font-weight: 800;
+            letter-spacing: 0.2px;
+            white-space: nowrap;
+        }
+
+        /* =========================
+           NAV LINKS
+        ========================= */
+
+        .smart-nav-link {
+            color: rgba(255, 255, 255, 0.92) !important;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            padding: 9px 14px !important;
+            border-radius: 9px;
+            transition: all 0.25s ease;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .smart-nav-link:hover {
+            color: white !important;
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-1px);
+        }
+
+        .smart-nav-link.active {
+            background: rgba(255, 255, 255, 0.18);
+            color: white !important;
+        }
+
+        .smart-nav-link i {
+            font-size: 14px;
+        }
+
+        /* =========================
+           RIGHT SIDE
+        ========================= */
+
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        /* =========================
+           USER NAME
+        ========================= */
+
+        .user-info {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    padding: 8px 16px;
+    border-radius: 30px;
+    color: white;
+    font-size: 14px;
+    white-space: nowrap;
+    transition: all 0.25s ease;
+}
+
+.user-info:hover {
+    background: rgba(255, 255, 255, 0.22);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+.user-label {
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 13px;
+    font-weight: 400;
+}
+
+.user-name {
+    color: white;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+        /* =========================
+           LOGIN BUTTON
+        ========================= */
+
+        .login-btn {
+            color: white;
+            text-decoration: none;
+            border: 1px solid rgba(255, 255, 255, 0.65);
+            padding: 8px 18px;
+            border-radius: 9px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.25s ease;
+        }
+
+        .login-btn:hover {
+            background: white;
+            color: #4169E1;
+            border-color: white;
+        }
+
+        /* =========================
+           SIGN UP BUTTON
+        ========================= */
+
+        .signup-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #4169E1;
+            background: white;
+            text-decoration: none;
+            padding: 9px 18px;
+            border-radius: 9px;
+            font-size: 14px;
+            font-weight: 700;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+            transition: all 0.25s ease;
+        }
+
+        .signup-btn:hover {
+            background: #f1f4ff;
+            color: #3155c7;
+            transform: translateY(-2px);
+            box-shadow: 0 7px 16px rgba(0, 0, 0, 0.16);
+        }
+
+        /* =========================
+           LOGOUT
+        ========================= */
+
+        .logout-btn {
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            color: white;
+            background: transparent;
+            padding: 8px 17px;
+            border-radius: 9px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.25s ease;
+        }
+
+        .logout-btn:hover {
+            background: #dc3545;
+            border-color: #dc3545;
+            color: white;
+        }
+
+        /* =========================
+           MOBILE TOGGLE
+        ========================= */
+
+        .smart-toggler {
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            padding: 7px 10px;
+            border-radius: 9px;
+        }
+
+        .smart-toggler:focus {
+            box-shadow: none;
+        }
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        main {
+            min-height: calc(100vh - 70px);
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 991px) {
+
+            .brand-wrapper {
+                margin-right: 0;
+            }
+
+            .navbar-container {
+                padding: 0 18px;
+            }
+
+            .smart-nav-link {
+                margin-top: 3px;
+                padding: 10px 13px !important;
+            }
+
+            .navbar-right {
+                align-items: flex-start;
+                flex-direction: column;
+                width: 100%;
+                margin-top: 10px;
+                padding: 10px 0 5px;
+                border-top: 1px solid rgba(255, 255, 255, 0.15);
+            }
+
+            .user-info {
+                width: 100%;
+            }
+
+            .login-btn,
+            .signup-btn,
+            .logout-btn {
+                width: 100%;
+                text-align: center;
+                justify-content: center;
+            }
+
+        }
+
+        @media (max-width: 500px) {
+
+            .brand-name {
+                font-size: 1.2rem;
+            }
+
+            .brand-logo {
+                width: 40px;
+                height: 40px;
+            }
+
+            .navbar-container {
+                padding: 0 12px;
+            }
+
+        }
+
+    </style>
+
+    {% block extra_css %}
+    {% endblock extra_css %}
+
 </head>
+
 
 <body>
 
-<header class="bg-blue text-white">
-<nav class="navbar navbar-expand-lg navbar-dark h-100">
-    <div class="container-fluid">
-    <img src="{% static "image/Scanteen.png" %}" style="width:45px;height:45px; margin-right:8px; border-radius:30px">
-        <!-- Brand -->
-        <h2 class="me-4 m-0 mt-1">SmartCanteen</h2>
+<!-- =========================
+     NAVBAR
+========================= -->
 
-        <!-- Toggle Button (Mobile) -->
-        <button class="navbar-toggler mt-2" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+<header class="smart-navbar">
 
-        <!-- Collapsible Content -->
-        <div class="collapse navbar-collapse" id="navMenu">
+    <nav class="navbar navbar-expand-lg navbar-dark">
 
-            <!-- Left Menu -->
-            <div class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center mt-3 mt-lg-0">
-                <a href="{% url 'homepage' %}" class="text-white text-decoration-none fs-5">Home</a>
-                <a href="{% url 'menu' %}" class="text-white text-decoration-none fs-5">Menu</a>
-                <a href="{% url 'customer_orders' %}" class="text-white text-decoration-none fs-5">My Orders</a>
-                <a href="{% url 'my_account'%}" class="text-white text-decoration-none fs-5">My Account</a>
-                <a href="{% url 'contact' %}" class="text-white text-decoration-none fs-5">Contact Us</a>
+        <div class="container-fluid navbar-container">
+
+
+            <!-- =====================
+                 BRAND
+            ====================== -->
+
+            <a href="{% url 'homepage' %}"
+               class="brand-wrapper">
+
+                <img
+                    src="{% static 'image/Scanteen.png' %}"
+                    alt="SmartCanteen Logo"
+                    class="brand-logo"
+                >
+
+                <span class="brand-name">
+                    SmartCanteen
+                </span>
+
+            </a>
+
+
+            <!-- =====================
+                 MOBILE TOGGLE
+            ====================== -->
+
+            <button
+                class="navbar-toggler smart-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navMenu"
+                aria-controls="navMenu"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+            >
+
+                <span class="navbar-toggler-icon"></span>
+
+            </button>
+
+
+            <!-- =====================
+                 NAVIGATION
+            ====================== -->
+
+            <div
+                class="collapse navbar-collapse"
+                id="navMenu"
+            >
+
+                <!-- LEFT NAVIGATION -->
+
+                <div
+                    class="d-flex flex-column flex-lg-row
+                           align-items-start align-items-lg-center
+                           gap-lg-1 mt-3 mt-lg-0"
+                >
+
+                    <a
+                        href="{% url 'homepage' %}"
+                        class="smart-nav-link"
+                    >
+                        <i class="fa-solid fa-house"></i>
+                        Home
+                    </a>
+
+
+                    <a
+                        href="{% url 'menu' %}"
+                        class="smart-nav-link"
+                    >
+                        <i class="fa-solid fa-utensils"></i>
+                        Menu
+                    </a>
+
+
+                    <a
+                        href="{% url 'customer_orders' %}"
+                        class="smart-nav-link"
+                    >
+                        <i class="fa-solid fa-receipt"></i>
+                        My Orders
+                    </a>
+
+
+                    <a
+                        href="{% url 'my_account' %}"
+                        class="smart-nav-link"
+                    >
+                        <i class="fa-solid fa-user"></i>
+                        My Account
+                    </a>
+
+
+                    <a
+                        href="{% url 'contact' %}"
+                        class="smart-nav-link"
+                    >
+                        <i class="fa-solid fa-envelope"></i>
+                        Contact Us
+                    </a>
+
+                </div>
+
+
+                <!-- =====================
+                     RIGHT SIDE
+                ====================== -->
+
+                <div class="navbar-right ms-auto">
+
+
+                    {% if user.is_authenticated %}
+
+                        <!-- USER -->
+
+                        <div class="user-info">
+                            <span>
+                                {{ user.first_name }} {{ user.last_name }}
+                            </span>
+                        </div>
+
+
+
+                        <!-- LOGOUT -->
+
+                        <form
+                            action="{% url 'logout' %}"
+                            method="post"
+                            class="m-0"
+                        >
+
+                            {% csrf_token %}
+
+                            <button
+                                type="submit"
+                                class="logout-btn"
+                            >
+                                <i class="fa-solid fa-right-from-bracket me-1"></i>
+                                Logout
+                            </button>
+
+                        </form>
+
+
+                    {% else %}
+
+                        <!-- SIGN UP -->
+
+                        <a
+                            href="{% url 'register' %}"
+                            class="signup-btn"
+                        >
+                            <i class="fa-solid fa-user-plus"></i>
+                            Sign Up
+                        </a>
+
+
+                        <!-- LOGIN -->
+
+                        <a
+                            href="{% url 'login' %}"
+                            class="login-btn"
+                        >
+                            <i class="fa-solid fa-right-to-bracket me-1"></i>
+                            Login
+                        </a>
+
+                    {% endif %}
+
+
+                </div>
+
             </div>
 
-            <!-- Right Side -->
-            <div class=" ms-auto d-flex align-items-center gap-2 mt-3 mt-lg-0">
-              {% if user.is_authenticated %}
-        <div class="me-2 text-black fw-medium fs-5">{{ user.first_name }} {{ user.last_name }}</div>
-        <form action="{% url 'logout' %}" method="post" class="d-flex gap-2 m-0 p-0">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-outline-danger btn-sm fs-6">Logout</button>
-        </form>
-          {% else %} 
-        <a href="{% url 'register' %}"  style="width:50px;" class="text-decoration-none">
-            <button type="button" class="btn btn-dark btn-sm fs-6 rounded-pill m-0" style="width:85px;height:40px;">Sign Up</button>
-        </a>
-        <a href="{% url 'login' %}" class="text-decoration-none">
-            <button type="button" class="btn btn-sm fs-5 m-0">Login</button>
-        </a>
-    {% endif %}
-           </div>
         </div>
-    </div>
-</nav>
+
+    </nav>
+
 </header>
+
+
+<!-- =========================
+     PAGE CONTENT
+========================= -->
+
 <main>
-{% block content %}
-{% endblock content %}
+
+    {% block content %}
+    {% endblock content %}
+
 </main>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Bootstrap JS -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js">
+</script>
 
 </body>
+
 </html>
