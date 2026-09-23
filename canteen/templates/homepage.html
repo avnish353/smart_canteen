@@ -2,103 +2,726 @@
 {% load static %}
 
 {% block title %}
-Home| SmartCanteen
+Home | SmartCanteen
 {% endblock title %}
 
 {% block extra_css %}
-  <style>
-    
-    .hero { text-align: center; padding: 70px 20px 100px 20px; background: #f0f8ff; }
-    .hero h1 { font-size: 3em; color: #0a74da; }
-    .hero p { font-size: 1.2em; color: #333; }
-    .cta { background: #0a74da; color: white; padding: 12px 25px; border-radius: 5px; text-decoration: none; }
+<style>
 
-  .search-bar input:focus {
-    border: 2.5px solid #0a74da !important;
-    outline: none;
-}
+    /* =========================
+       GLOBAL
+    ========================= */
+    * {
+        box-sizing: border-box;
+    }
 
-input {width:500px;}
+    body {
+        margin: 0;
+        background: #f8faff;
+        color: #222;
+        font-family: Arial, Helvetica, sans-serif;
+    }
 
-  .search-bar input{
-    width:970px;
-    height:45px;
-    border-radius:25px;
-    font-size:20px;
-    padding-left:20px;
-    border:2px solid #0a74da
-  }
+    /* =========================
+       HERO SECTION
+    ========================= */
+    .hero {
+        position: relative;
+        text-align: center;
+        padding: 75px 20px 95px;
+        background:
+            radial-gradient(circle at top left, rgba(65, 105, 225, 0.15), transparent 35%),
+            radial-gradient(circle at bottom right, rgba(65, 105, 225, 0.12), transparent 35%),
+            linear-gradient(135deg, #f8fbff, #eef4ff);
+        overflow: hidden;
+    }
 
-  .search-bar input:hover{
-    border:2.5px solid #0a74da;
-  }  
+    .hero::before {
+        content: "";
+        position: absolute;
+        width: 220px;
+        height: 220px;
+        background: rgba(65, 105, 225, 0.08);
+        border-radius: 50%;
+        top: -80px;
+        right: 8%;
+    }
+
+    .hero::after {
+        content: "";
+        position: absolute;
+        width: 160px;
+        height: 160px;
+        background: rgba(65, 105, 225, 0.07);
+        border-radius: 50%;
+        bottom: -70px;
+        left: 7%;
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 2;
+        max-width: 1000px;
+        margin: auto;
+    }
+
+    .hero-badge {
+        display: inline-block;
+        background: #e8efff;
+        color: #4169E1;
+        padding: 8px 18px;
+        border-radius: 30px;
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 20px;
+    }
+
+    .hero h1 {
+        font-size: clamp(2.2rem, 5vw, 3.8rem);
+        font-weight: 800;
+        color: #4169E1;
+        margin: 15px auto;
+        line-height: 1.15;
+        max-width: 850px;
+    }
+
+    .hero h1 span {
+        color: #1f3fa3;
+    }
+
+    .hero p {
+        font-size: 1.15rem;
+        color: #555;
+        max-width: 700px;
+        margin: 0 auto 30px;
+        line-height: 1.7;
+    }
+
+    /* =========================
+       SEARCH BAR
+    ========================= */
+    .search-bar {
+        max-width: 850px;
+        margin: 0 auto 35px;
+    }
+
+    .search-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+        background: white;
+        border-radius: 50px;
+        padding: 6px;
+        box-shadow: 0 8px 30px rgba(65, 105, 225, 0.14);
+        border: 1px solid #e0e7ff;
+        transition: all 0.3s ease;
+    }
+
+    .search-wrapper:focus-within {
+        border-color: #4169E1;
+        box-shadow: 0 10px 35px rgba(65, 105, 225, 0.22);
+    }
+
+    .search-icon {
+        font-size: 22px;
+        color: #4169E1;
+        margin-left: 18px;
+    }
+
+    .search-bar input {
+        flex: 1;
+        width: auto;
+        height: 48px;
+        border: none;
+        outline: none;
+        padding: 0 18px;
+        font-size: 16px;
+        color: #333;
+        background: transparent;
+    }
+
+    .search-bar input::placeholder {
+        color: #999;
+    }
+
+    .search-button {
+        border: none;
+        background: #4169E1;
+        color: white;
+        padding: 12px 24px;
+        border-radius: 30px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .search-button:hover {
+        background: #3155c7;
+        transform: translateY(-1px);
+    }
+
+    /* =========================
+       CTA BUTTON
+    ========================= */
+    .cta {
+        display: inline-block;
+        background: #4169E1;
+        color: white;
+        padding: 13px 30px;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 16px;
+        box-shadow: 0 7px 18px rgba(65, 105, 225, 0.3);
+        transition: all 0.3s ease;
+    }
+
+    .cta:hover {
+        background: #3155c7;
+        color: white;
+        transform: translateY(-3px);
+        box-shadow: 0 10px 24px rgba(65, 105, 225, 0.4);
+    }
+
+    /* =========================
+       FEATURES
+    ========================= */
+    .features {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 25px;
+        padding: 35px 20px;
+        background: white;
+        border-bottom: 1px solid #edf0f7;
+    }
+
+    .feature {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-width: 190px;
+        color: #444;
+    }
+
+    .feature-icon {
+        width: 45px;
+        height: 45px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: #edf2ff;
+        color: #4169E1;
+        font-size: 20px;
+    }
+
+    .feature strong {
+        display: block;
+        color: #222;
+        font-size: 14px;
+    }
+
+    .feature span {
+        font-size: 12px;
+        color: #777;
+    }
+
+    /* =========================
+       RECOMMENDATIONS
+    ========================= */
+    .recommendations {
+        padding: 70px 30px;
+        text-align: center;
+        background: #f8faff;
+    }
+
+    .section-label {
+        color: #4169E1;
+        font-size: 14px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        margin-bottom: 8px;
+    }
+
+    .recommendations h2 {
+        color: #1d2b53;
+        font-size: clamp(2rem, 4vw, 2.6rem);
+        margin: 0 0 10px;
+        font-weight: 800;
+    }
+
+    .recommendations > p {
+        color: #777;
+        margin-bottom: 45px;
+        font-size: 16px;
+    }
+
+    .recommend-grid {
+        max-width: 1150px;
+        margin: auto;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 25px;
+    }
+
+    /* =========================
+       FOOD CARD
+    ========================= */
+    .food-card {
+        background: white;
+        border-radius: 18px;
+        overflow: hidden;
+        box-shadow: 0 5px 20px rgba(31, 63, 163, 0.08);
+        text-align: left;
+        transition: all 0.35s ease;
+        border: 1px solid #edf0f7;
+    }
+
+    .food-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 35px rgba(31, 63, 163, 0.16);
+    }
+
+    .food-image-wrapper {
+        position: relative;
+        overflow: hidden;
+        height: 190px;
+    }
+
+    .food-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.4s ease;
+    }
+
+    .food-card:hover img {
+        transform: scale(1.07);
+    }
+
+    .food-badge {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        background: white;
+        color: #4169E1;
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 11px;
+        font-weight: 700;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+    }
+
+    .food-info {
+        padding: 20px;
+    }
+
+    .food-card h3 {
+        margin: 0 0 8px;
+        color: #1d2b53;
+        font-size: 20px;
+        font-weight: 700;
+    }
+
+    .food-card p {
+        font-size: 14px;
+        color: #777;
+        line-height: 1.6;
+        min-height: 45px;
+        margin-bottom: 18px;
+    }
+
+    .food-card button {
+        width: 100%;
+        background: #4169E1;
+        color: white;
+        border: none;
+        padding: 11px 18px;
+        border-radius: 9px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .food-card button:hover {
+        background: #3155c7;
+        transform: translateY(-2px);
+    }
+
+    .food-card button a {
+        color: white;
+        text-decoration: none;
+        display: block;
+    }
+
+    /* =========================
+       FOOTER
+    ========================= */
+    footer {
+        background: #1d2b53;
+        color: white;
+        text-align: center;
+        padding: 25px 20px;
+    }
+
+    footer p {
+        margin: 0;
+        font-size: 14px;
+        color: #dce3ff;
+    }
+
+    footer strong {
+        color: white;
+    }
+
+    /* =========================
+       RESPONSIVE
+    ========================= */
+    @media (max-width: 992px) {
+        .recommend-grid {
+            grid-template-columns: repeat(2, 1fr);
+            max-width: 700px;
+        }
+    }
+
+    @media (max-width: 600px) {
+
+        .hero {
+            padding: 55px 15px 70px;
+        }
+
+        .hero h1 {
+            font-size: 2.2rem;
+        }
+
+        .hero p {
+            font-size: 1rem;
+        }
+
+        .search-wrapper {
+            padding: 5px;
+        }
+
+        .search-icon {
+            display: none;
+        }
+
+        .search-bar input {
+            padding-left: 15px;
+            font-size: 14px;
+        }
+
+        .search-button {
+            padding: 10px 16px;
+            font-size: 13px;
+        }
+
+        .features {
+            gap: 18px;
+        }
+
+        .feature {
+            width: 100%;
+            justify-content: center;
+        }
+
+        .recommendations {
+            padding: 55px 15px;
+        }
+
+        .recommend-grid {
+            grid-template-columns: 1fr;
+            max-width: 380px;
+        }
+
+        .food-image-wrapper {
+            height: 210px;
+        }
+    }
+
+</style>
+{% endblock extra_css %}
 
 
-.recommendations {padding: 60px 50px;text-align: center;background: #f9fbff}
-
-.recommendations h2 {color: #0a74da;font-size: 2em;margin-bottom: 10px;}
-.recommendations p {color: #555;margin-bottom: 40px;}
-.recommend-grid {display: flex;flex-wrap: wrap;justify-content: center;gap: 30px;}
-.food-card {background: white;border-radius: 10px;box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);width: 250px;padding: 20px;text-align: center;transition: transform 0.3s ease;}
-
-.food-card:hover {  transform: translateY(-5px);}
-.food-card img { width: 100%; height: 160px; border-radius: 10px; object-fit: cover;}
-.food-card h3 {margin: 15px 0 5px;color: #0a74da;}
-.food-card p {font-size: 0.95em;color: #444;}
-
-.food-card button { background: #0a74da; color: white; border: none; padding: 10px 18px; border-radius: 5px; cursor: pointer; margin-top: 10px;}
-.food-card a{color:white;text-decoration:none} 
-.food-card button:hover {background: #085bb0;}
-  .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); width: 250px; }
-    footer { background: #0a74da; color: white; text-align: center; padding: 20px; }
-  </style>
-  {% endblock extra_css %}
-  
 {% block content %}
+
+<!-- =========================
+     HERO
+========================= -->
 <section class="hero">
-  <div class="search-bar mb-3">
-  <form method="get" action="{% url 'search_food' %}">
-    <input type="text" name="q" placeholder="Search for food or category..." value="{{ query }}" style="width:50%; padding:12px;">
-</form>
-</div>
-  <h1>Order Smart. Eat Fresh. Save Time.</h1>
-  <p>Skip the line and order your meal ahead with our smart canteen system.</p>
-  <a href="{% url 'menu'%}" class="cta">Order Now</a>
+
+    <div class="hero-content">
+
+        <div class="hero-badge">
+            🍽️ Smart &nbsp;•&nbsp; Fast &nbsp;•&nbsp; Fresh
+        </div>
+
+        <h1>
+            Order Smart.<br>
+            <span>Eat Fresh. Save Time.</span>
+        </h1>
+
+        <p>
+            Skip the line and order your favourite meal ahead
+            with SmartCanteen. Fast ordering, fresh food,
+            and a better canteen experience.
+        </p>
+
+        <!-- Search -->
+        <div class="search-bar">
+
+            <form method="get" action="{% url 'search_food' %}">
+
+                <div class="search-wrapper">
+
+                    <span class="search-icon">🔍</span>
+
+                    <input
+                        type="text"
+                        name="q"
+                        placeholder="Search for food or category..."
+                        value="{{ query }}"
+                    >
+
+                    <button type="submit" class="search-button">
+                        Search
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+        <a href="{% url 'menu' %}" class="cta">
+            🍴 Order Now
+        </a>
+
+    </div>
+
 </section>
 
+
+<!-- =========================
+     FEATURES
+========================= -->
+<section class="features">
+
+    <div class="feature">
+        <div class="feature-icon">⚡</div>
+        <div>
+            <strong>Quick Ordering</strong>
+            <span>Save your valuable time</span>
+        </div>
+    </div>
+
+    <div class="feature">
+        <div class="feature-icon">🥗</div>
+        <div>
+            <strong>Fresh Food</strong>
+            <span>Made fresh for you</span>
+        </div>
+    </div>
+
+    <div class="feature">
+        <div class="feature-icon">📱</div>
+        <div>
+            <strong>Easy to Use</strong>
+            <span>Simple online ordering</span>
+        </div>
+    </div>
+
+    <div class="feature">
+        <div class="feature-icon">🛍️</div>
+        <div>
+            <strong>Skip the Queue</strong>
+            <span>Order before you arrive</span>
+        </div>
+    </div>
+
+</section>
+
+
+<!-- =========================
+     RECOMMENDATIONS
+========================= -->
 <section class="recommendations">
-  <h2>Recommended For You 🍽️</h2>
-  <p>Based on your preferences and popular choices</p>
-  <div class="recommend-grid">
-    <div class="food-card">
-      <img src={% static "image/samosa.jpg" %} alt="Samosa" />
-      <h3>Samosa</h3>
-      <p>Crispy pastry filled with spiced potatoes and peas.</p>
-      <button class="btn btn-primary"><a href="{% url 'add_to_cart' 5 %}">Add to Cart</a></button>
+
+    <div class="section-label">
+        Popular Choices
     </div>
-    <div class="food-card">
-      <img src={% static "image/breadbada.jpg" %} alt="bread bada" />
-      <h3>Bread Bada</h3>
-      <p>Rich and cheesy pasta with a hint of garlic flavor.</p>
-      <button class="btn btn-primary"><a href="{% url 'add_to_cart' 9 %}">Add to Cart</a></button>
+
+    <h2>
+        Recommended For You 🍽️
+    </h2>
+
+    <p>
+        Discover some of the most loved items from our canteen.
+    </p>
+
+
+    <div class="recommend-grid">
+
+        <!-- Samosa -->
+        <div class="food-card">
+
+            <div class="food-image-wrapper">
+
+                <img
+                    src="{% static 'image/samosa.jpg' %}"
+                    alt="Samosa"
+                >
+
+                <span class="food-badge">
+                    ⭐ Popular
+                </span>
+
+            </div>
+
+            <div class="food-info">
+
+                <h3>Samosa</h3>
+
+                <p>
+                    Crispy pastry filled with delicious
+                    spiced potatoes and peas.
+                </p>
+
+                <button>
+                    <a href="{% url 'add_to_cart' 5 %}">
+                        🛒 Add to Cart
+                    </a>
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- Bread Bada -->
+        <div class="food-card">
+
+            <div class="food-image-wrapper">
+
+                <img
+                    src="{% static 'image/breadbada.jpg' %}"
+                    alt="Bread Bada"
+                >
+
+                <span class="food-badge">
+                    ⭐ Favourite
+                </span>
+
+            </div>
+
+            <div class="food-info">
+
+                <h3>Bread Bada</h3>
+
+                <p>
+                    Crispy and tasty bread snack,
+                    perfect for a quick bite.
+                </p>
+
+                <button>
+                    <a href="{% url 'add_to_cart' 9 %}">
+                        🛒 Add to Cart
+                    </a>
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- Poha -->
+        <div class="food-card">
+
+            <div class="food-image-wrapper">
+
+                <img
+                    src="{% static 'image/poha.jpg' %}"
+                    alt="Poha"
+                >
+
+                <span class="food-badge">
+                    ⭐ Popular
+                </span>
+
+            </div>
+
+            <div class="food-info">
+
+                <h3>Poha</h3>
+
+                <p>
+                    A light and delicious Indian breakfast
+                    packed with flavour.
+                </p>
+
+                <button>
+                    <a href="{% url 'add_to_cart' 8 %}">
+                        🛒 Add to Cart
+                    </a>
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- Kachori -->
+        <div class="food-card">
+
+            <div class="food-image-wrapper">
+
+                <img
+                    src="{% static 'image/kachori.jpg' %}"
+                    alt="Kachori"
+                >
+
+                <span class="food-badge">
+                    ⭐ Favourite
+                </span>
+
+            </div>
+
+            <div class="food-info">
+
+                <h3>Kachori</h3>
+
+                <p>
+                    Delicious crispy kachori with
+                    a flavorful spicy filling.
+                </p>
+
+                <button>
+                    <a href="{% url 'add_to_cart' 6 %}">
+                        🛒 Add to Cart
+                    </a>
+                </button>
+
+            </div>
+
+        </div>
+
     </div>
-    <div class="food-card">
-      <img src={% static "image/poha.jpg" %} alt="Poha" />
-      <h3>Poha</h3>
-      <p>Refreshing mix of berries and yogurt for a perfect drink.</p>
-      <button class="btn btn-primary"><a href="{% url 'add_to_cart' 8 %}">Add to Cart</a></button>
-    </div>
-    <div class="food-card">
-      <img src={% static "image/kachori.jpg" %} alt="kachori"/>
-      <h3>Kachori</h3>
-      <p>Light and tasty sandwich packed with fresh vegetables.</p>
-      <button class="btn btn-primary"><a href="{% url 'add_to_cart' 6 %}">Add to Cart</a></button>
-    </div>
-  </div>
+
 </section>
 
-<footer>
-  <p>&copy; 2025 SmartCanteen. All rights reserved.</p>
-</footer>
-{% endblock content %}
 
+<!-- =========================
+     FOOTER
+========================= -->
+<footer>
+
+    <p>
+        &copy; 2026 <strong>SmartCanteen</strong>.
+        All rights reserved.
+    </p>
+
+</footer>
+
+{% endblock content %}
