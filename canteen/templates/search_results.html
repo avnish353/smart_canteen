@@ -1,44 +1,802 @@
-
 {% extends "base.html" %}
 {% load static %}
-{% block title %}Search items{% endblock title %}
 
- {% block extra_css %}
-   <style>
-    .menu-grid{text-align: center; display: flex; flex-wrap: wrap; justify-content: center;}
-    .menu-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; }
-    .menu-card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); width: 250px;transition: transform 0.3s ease; }
-    .menu-card:hover {transform: translateY(-5px);}
-    .menu-card h3 { color: #0a74da; }
-    .menu-card p { color: #444; }
-    .menu-card a {text-decoration:none;color:white;}
-    .menu-card button:hover {background: #085bb0;}
-     .menu-card button { background: #0a74da; color: white; border: none; padding: 10px 18px; border-radius: 5px; cursor: pointer; margin-top: 10px;}
-     .cart{color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; margin:40px 0px 0px 0px;}
-    .btn a{color:white;text-decoration:none;}
-    .btn-warning{color:black; }
-  </style> 
-  {% endblock extra_css %}
+{% block title %}
+Search Results | SmartCanteen
+{% endblock title %}
+
+
+{% block extra_css %}
+
+<style>
+
+    /* =========================
+       PAGE
+    ========================= */
+
+    .search-page {
+        min-height: calc(100vh - 70px);
+        background: #f8faff;
+        padding-bottom: 80px;
+    }
+
+
+    /* =========================
+       SEARCH HERO
+    ========================= */
+
+    .search-hero {
+        text-align: center;
+
+        padding: 55px 20px 60px;
+
+        background:
+            radial-gradient(
+                circle at top left,
+                rgba(65, 105, 225, 0.15),
+                transparent 35%
+            ),
+            radial-gradient(
+                circle at bottom right,
+                rgba(65, 105, 225, 0.12),
+                transparent 35%
+            ),
+            linear-gradient(
+                135deg,
+                #f8fbff,
+                #eef4ff
+            );
+    }
+
+
+    .search-badge {
+        display: inline-block;
+
+        background: #e8efff;
+
+        color: #4169E1;
+
+        padding: 8px 18px;
+
+        border-radius: 30px;
+
+        font-size: 13px;
+
+        font-weight: 700;
+
+        margin-bottom: 15px;
+    }
+
+
+    .search-hero h1 {
+        color: #1d2b53;
+
+        font-size: clamp(
+            2rem,
+            5vw,
+            3rem
+        );
+
+        font-weight: 800;
+
+        margin: 5px 0 10px;
+    }
+
+
+    .search-hero h1 span {
+        color: #4169E1;
+    }
+
+
+    .search-query {
+        color: #4169E1;
+
+        font-weight: 700;
+    }
+
+
+    .search-hero p {
+        color: #777;
+
+        margin: 0 auto;
+
+        max-width: 650px;
+
+        line-height: 1.7;
+    }
+
+
+    /* =========================
+       SEARCH CONTENT
+    ========================= */
+
+    .search-container {
+        max-width: 1200px;
+
+        margin: auto;
+
+        padding: 50px 25px;
+    }
+
+
+    /* =========================
+       SECTION HEADER
+    ========================= */
+
+    .search-section-header {
+        text-align: center;
+
+        margin-bottom: 35px;
+    }
+
+
+    .search-section-header h2 {
+        color: #1d2b53;
+
+        font-size: 2rem;
+
+        font-weight: 800;
+
+        margin-bottom: 8px;
+    }
+
+
+    .search-section-header p {
+        color: #777;
+
+        margin: 0;
+    }
+
+
+    /* =========================
+       GRID
+    ========================= */
+
+    .menu-grid {
+        display: grid;
+
+        grid-template-columns:
+            repeat(4, 1fr);
+
+        gap: 25px;
+    }
+
+
+    /* =========================
+       FOOD CARD
+    ========================= */
+
+    .menu-card {
+        background: white;
+
+        border-radius: 18px;
+
+        overflow: hidden;
+
+        border: 1px solid #edf0f7;
+
+        box-shadow:
+            0 5px 20px
+            rgba(31, 63, 163, 0.08);
+
+        transition:
+            transform 0.35s ease,
+            box-shadow 0.35s ease;
+
+        display: flex;
+
+        flex-direction: column;
+    }
+
+
+    .menu-card:hover {
+        transform: translateY(-8px);
+
+        box-shadow:
+            0 15px 35px
+            rgba(31, 63, 163, 0.16);
+    }
+
+
+    /* =========================
+       IMAGE
+    ========================= */
+
+    .menu-image {
+        position: relative;
+
+        height: 200px;
+
+        overflow: hidden;
+
+        background: #eef3ff;
+    }
+
+
+    .menu-image img {
+        width: 100%;
+
+        height: 100%;
+
+        object-fit: cover;
+
+        display: block;
+
+        transition:
+            transform 0.4s ease;
+    }
+
+
+    .menu-card:hover
+    .menu-image img {
+        transform: scale(1.07);
+    }
+
+
+    /* =========================
+       BADGE
+    ========================= */
+
+    .food-badge {
+        position: absolute;
+
+        top: 12px;
+
+        right: 12px;
+
+        background: white;
+
+        color: #4169E1;
+
+        padding: 6px 11px;
+
+        border-radius: 20px;
+
+        font-size: 11px;
+
+        font-weight: 700;
+
+        box-shadow:
+            0 3px 10px
+            rgba(0, 0, 0, 0.12);
+    }
+
+
+    /* =========================
+       CARD CONTENT
+    ========================= */
+
+    .menu-card-content {
+        padding: 20px;
+
+        display: flex;
+
+        flex-direction: column;
+
+        flex-grow: 1;
+    }
+
+
+    .menu-card h3 {
+        color: #1d2b53;
+
+        font-size: 20px;
+
+        font-weight: 700;
+
+        margin: 0 0 8px;
+    }
+
+
+    .menu-card p {
+        color: #777;
+
+        font-size: 14px;
+
+        line-height: 1.6;
+
+        margin: 0 0 15px;
+
+        min-height: 45px;
+    }
+
+
+    /* =========================
+       PRICE
+    ========================= */
+
+    .price {
+        color: #4169E1;
+
+        font-size: 20px;
+
+        font-weight: 800;
+
+        margin-bottom: 16px;
+    }
+
+
+    /* =========================
+       ADD CART
+    ========================= */
+
+    .add-cart-btn {
+        width: 100%;
+
+        border: none;
+
+        background: #4169E1;
+
+        color: white;
+
+        padding: 11px 15px;
+
+        border-radius: 9px;
+
+        font-weight: 600;
+
+        cursor: pointer;
+
+        transition: all 0.3s ease;
+
+        margin-top: auto;
+    }
+
+
+    .add-cart-btn:hover {
+        background: #3155c7;
+
+        transform: translateY(-2px);
+    }
+
+
+    .add-cart-btn a {
+        color: white;
+
+        text-decoration: none;
+
+        display: block;
+    }
+
+
+    /* =========================
+       CART
+    ========================= */
+
+    .cart-section {
+        text-align: center;
+
+        margin-top: 50px;
+    }
+
+
+    .cart-btn {
+        display: inline-flex;
+
+        align-items: center;
+
+        gap: 8px;
+
+        background: #4169E1;
+
+        color: white;
+
+        padding: 13px 28px;
+
+        border-radius: 10px;
+
+        text-decoration: none;
+
+        font-weight: 600;
+
+        box-shadow:
+            0 7px 18px
+            rgba(65, 105, 225, 0.25);
+
+        transition: all 0.3s ease;
+    }
+
+
+    .cart-btn:hover {
+        background: #3155c7;
+
+        color: white;
+
+        transform: translateY(-3px);
+    }
+
+
+    /* =========================
+       NO RESULTS
+    ========================= */
+
+    .no-results {
+        max-width: 650px;
+
+        margin: 20px auto;
+
+        background: white;
+
+        padding: 55px 25px;
+
+        text-align: center;
+
+        border-radius: 20px;
+
+        border: 1px solid #edf0f7;
+
+        box-shadow:
+            0 5px 20px
+            rgba(31, 63, 163, 0.08);
+    }
+
+
+    .no-results-icon {
+        font-size: 55px;
+
+        margin-bottom: 15px;
+    }
+
+
+    .no-results h3 {
+        color: #1d2b53;
+
+        font-weight: 800;
+
+        margin-bottom: 8px;
+    }
+
+
+    .no-results p {
+        color: #777;
+
+        margin-bottom: 25px;
+    }
+
+
+    .menu-btn {
+        display: inline-block;
+
+        background: #4169E1;
+
+        color: white;
+
+        padding: 11px 22px;
+
+        border-radius: 9px;
+
+        text-decoration: none;
+
+        font-weight: 600;
+
+        transition: 0.3s ease;
+    }
+
+
+    .menu-btn:hover {
+        background: #3155c7;
+
+        color: white;
+
+        transform: translateY(-2px);
+    }
+
+
+    /* =========================
+       RESPONSIVE
+    ========================= */
+
+    @media (max-width: 1050px) {
+
+        .menu-grid {
+            grid-template-columns:
+                repeat(3, 1fr);
+        }
+
+    }
+
+
+    @media (max-width: 768px) {
+
+        .menu-grid {
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 20px;
+        }
+
+        .search-container {
+            padding: 40px 20px 60px;
+        }
+
+    }
+
+
+    @media (max-width: 550px) {
+
+        .search-hero {
+            padding: 45px 15px 50px;
+        }
+
+        .search-hero h1 {
+            font-size: 2rem;
+        }
+
+        .menu-grid {
+            grid-template-columns: 1fr;
+
+            max-width: 380px;
+
+            margin: auto;
+        }
+
+        .menu-image {
+            height: 220px;
+        }
+
+    }
+
+</style>
+
+{% endblock extra_css %}
+
 
 {% block content %}
-<h2 style="text-align:center;" class="pb-4">Search Results for "{{ query }}"</h2>
 
-{% if results %}
-<div class="menu-grid">
-  {% for food in results %}
-  <div class="menu-card">
-      <h3>{{ food.name }}</h3>
-      <p>{{ food.description }}</p>
-      <button class="fs-8" ><a href="{% url 'add_to_cart' food.id %}">Add to Cart</button>
-  </div>
-  {% endfor %}
-  {% if cart_count > 0 %}
-    <button  class="btn btn-primary mt-5 p-2" ><a class="cart" href="{% url 'cart' %}">View Cart</button>
-      {% endif %}
+<div class="search-page">
+
+
+    <!-- =========================
+         SEARCH HERO
+    ========================= -->
+
+    <section class="search-hero">
+
+        <div class="search-badge">
+            🔍 SmartCanteen Search
+        </div>
+
+        <h1>
+            Search <span>Results</span>
+        </h1>
+
+        <p>
+            Showing delicious food items matching
+            <span class="search-query">
+                "{{ query }}"
+            </span>
+        </p>
+
+    </section>
+
+
+    <!-- =========================
+         SEARCH RESULTS
+    ========================= -->
+
+    <div class="search-container">
+
+
+        {% if results %}
+
+            <div class="search-section-header">
+
+                <h2>
+                    🍽️ Food You May Like
+                </h2>
+
+                <p>
+                    Choose your favourite and add it to your cart.
+                </p>
+
+            </div>
+
+
+            <div class="menu-grid">
+
+                {% for food in results %}
+
+                    <div class="menu-card">
+
+
+                        <!-- =====================
+                             IMAGE
+                        ====================== -->
+
+                        <div class="menu-image">
+
+
+                            {% if food.name|lower == "samosa" %}
+
+                                <img
+                                    src="{% static 'image/samosa.jpg' %}"
+                                    alt="Samosa"
+                                >
+
+                                <span class="food-badge">
+                                    ⭐ Popular
+                                </span>
+
+
+                            {% elif food.name|lower == "bread bada" %}
+
+                                <img
+                                    src="{% static 'image/breadbada.jpg' %}"
+                                    alt="Bread Bada"
+                                >
+
+                                <span class="food-badge">
+                                    ⭐ Favourite
+                                </span>
+
+
+                            {% elif food.name|lower == "poha" %}
+
+                                <img
+                                    src="{% static 'image/poha.jpg' %}"
+                                    alt="Poha"
+                                >
+
+                                <span class="food-badge">
+                                    ⭐ Popular
+                                </span>
+
+
+                            {% elif food.name|lower == "kachori" %}
+
+                                <img
+                                    src="{% static 'image/kachori.jpg' %}"
+                                    alt="Kachori"
+                                >
+
+                                <span class="food-badge">
+                                    ⭐ Favourite
+                                </span>
+
+
+                            {% elif food.name|lower == "aloo bada" %}
+
+                                <img
+                                    src="{% static 'image/aloobada.jpg' %}"
+                                    alt="Aloo Bada"
+                                >
+
+                                <span class="food-badge">
+                                    ⭐ Popular
+                                </span>
+
+
+                            {% elif food.name|lower == "chole bhature" %}
+
+                                <img
+                                    src="{% static 'image/cholebhature.jpg' %}"
+                                    alt="Chole Bhature"
+                                >
+
+                                <span class="food-badge">
+                                    ⭐ Favourite
+                                </span>
+
+
+                            {% else %}
+
+                                <div style="
+                                    width:100%;
+                                    height:100%;
+                                    display:flex;
+                                    align-items:center;
+                                    justify-content:center;
+                                    font-size:60px;
+                                ">
+                                    🍽️
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <!-- =====================
+                             CONTENT
+                        ====================== -->
+
+                        <div class="menu-card-content">
+
+                            <h3>
+                                {{ food.name }}
+                            </h3>
+
+                            <p>
+                                {{ food.description }}
+                            </p>
+
+                            <div class="price">
+                                ₹{{ food.price }}
+                            </div>
+
+                            <button
+                                class="add-cart-btn"
+                                type="button"
+                            >
+
+                                <a href="{% url 'add_to_cart' food.id %}">
+                                    🛒 Add to Cart
+                                </a>
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+
+            <!-- =========================
+                 CART
+            ========================= -->
+
+            {% if cart_count > 0 %}
+
+                <div class="cart-section">
+
+                    <a
+                        href="{% url 'cart' %}"
+                        class="cart-btn"
+                    >
+
+                        🛒 View Cart
+
+                        ({{ cart_count }}
+                        item{% if cart_count > 1 %}s{% endif %})
+
+                    </a>
+
+                </div>
+
+            {% endif %}
+
+
+        {% else %}
+
+
+            <!-- =========================
+                 NO RESULTS
+            ========================= -->
+
+            <div class="no-results">
+
+                <div class="no-results-icon">
+                    🔎
+                </div>
+
+                <h3>
+                    No Food Found
+                </h3>
+
+                <p>
+                    Sorry, we couldn't find any food matching
+                    <strong>"{{ query }}"</strong>.
+                    Try searching for something else.
+                </p>
+
+                <a
+                    href="{% url 'menu' %}"
+                    class="menu-btn"
+                >
+                    🍴 Explore Menu
+                </a>
+
+            </div>
+
+
+        {% endif %}
+
+
+    </div>
+
 </div>
 
-{% else %}
-<p>No food items found.</p>
-{% endif %}
-
-{% endblock %}
+{% endblock content %}
