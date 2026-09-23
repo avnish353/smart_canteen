@@ -1,48 +1,278 @@
 {% extends "base.html" %}
-{% block title %}Payment | Smart Canteen{% endblock %}
+
+{% block title %}Payment | SmartCanteen{% endblock title %}
+
+{% block extra_css %}
+
+<style> /* ========================= PAYMENT PAGE ========================= */ .payment-page { min-height: calc(100vh - 70px); background: #f8faff; padding: 50px 20px 80px; } .payment-container { max-width: 650px; margin: auto; } /* ========================= HEADER ========================= */ .payment-header { text-align: center; margin-bottom: 30px; } .payment-badge { display: inline-block; background: #e8efff; color: #4169E1; padding: 8px 18px; border-radius: 30px; font-size: 13px; font-weight: 700; margin-bottom: 12px; } .payment-header h1 { color: #1d2b53; font-size: 2.5rem; font-weight: 800; margin: 0 0 8px; } .payment-header h1 span { color: #4169E1; } .payment-header p { color: #777; margin: 0; font-size: 15px; } /* ========================= PAYMENT CARD ========================= */ .payment-card { background: white; border-radius: 20px; border: 1px solid #edf0f7; box-shadow: 0 8px 30px rgba(31, 63, 163, 0.10); overflow: hidden; } /* ========================= CARD TOP ========================= */ .payment-card-top { background: linear-gradient( 135deg, #4169E1, #3155c7 ); color: white; padding: 25px; text-align: center; } .payment-icon { width: 58px; height: 58px; margin: 0 auto 12px; border-radius: 50%; background: rgba(255, 255, 255, 0.18); display: flex; align-items: center; justify-content: center; font-size: 27px; } .payment-card-top h3 { margin: 0 0 6px; font-weight: 700; font-size: 21px; } .payment-card-top p { margin: 0; font-size: 14px; opacity: 0.9; } /* ========================= TOTAL ========================= */ .amount-box { margin: 25px; padding: 18px 20px; background: #f5f7ff; border: 1px solid #e3e8fb; border-radius: 13px; display: flex; justify-content: space-between; align-items: center; } .amount-label { color: #555; font-size: 15px; font-weight: 600; } .amount-value { color: #4169E1; font-size: 25px; font-weight: 800; } /* ========================= FORM ========================= */ .payment-form { padding: 0 25px 30px; } .form-group { margin-bottom: 20px; } .form-label { color: #1d2b53; font-weight: 600; margin-bottom: 8px; } .form-control, .form-select { min-height: 48px; border: 1.5px solid #dce2f0; border-radius: 10px; padding: 10px 13px; transition: all 0.25s ease; color: #333; } .form-control:focus, .form-select:focus { border-color: #4169E1; box-shadow: 0 0 0 3px rgba(65, 105, 225, 0.12); } /* ========================= CARD NUMBER ========================= */ .card-input-wrapper { position: relative; } .card-input-wrapper i { position: absolute; right: 15px; top: 15px; color: #4169E1; font-size: 18px; pointer-events: none; } /* ========================= TWO COLUMN FIELDS ========================= */ .payment-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; } /* ========================= PAY BUTTON ========================= */ .pay-button { width: 100%; border: none; background: #4169E1; color: white; padding: 14px 20px; border-radius: 10px; font-size: 17px; font-weight: 700; cursor: pointer; box-shadow: 0 7px 18px rgba(65, 105, 225, 0.25); transition: all 0.3s ease; } .pay-button:hover { background: #3155c7; transform: translateY(-2px); box-shadow: 0 10px 22px rgba(65, 105, 225, 0.30); } /* ========================= SECURITY NOTE ========================= */ .security-note { text-align: center; color: #777; font-size: 13px; margin-top: 18px; } .security-note span { color: #198754; font-weight: 600; } /* ========================= BACK LINK ========================= */ .back-link { display: block; text-align: center; margin-top: 20px; color: #4169E1; text-decoration: none; font-size: 14px; font-weight: 600; } .back-link:hover { color: #3155c7; text-decoration: underline; } /* ========================= RESPONSIVE ========================= */ @media (max-width: 600px) { .payment-page { padding: 35px 15px 60px; } .payment-header h1 { font-size: 2.2rem; } .payment-card-top { padding: 22px 18px; } .amount-box { margin: 20px; } .payment-form { padding: 0 20px 25px; } .payment-row { grid-template-columns: 1fr; gap: 0; } .amount-value { font-size: 22px; } } </style>
+
+{% endblock extra_css %}
 
 {% block content %}
-<div class="container my-5">
-    <h2>Payment Page</h2>
-    <p><strong>Total Amount to Pay: ₹{{ total }}</strong></p>
 
-    <form method="post" action="{% url 'payment_success' %}">
-        {% csrf_token %}
+<div class="payment-page">
+<div class="payment-container">
 
-        <!-- ⭐ Bank Dropdown -->
-        <div class="mb-3">
-            <label for="bank" class="form-label">Select Bank</label>
-            <select class="form-select" id="bank" name="bank" required>
-                <option value="" selected disabled>-- Choose Bank --</option>
-                <option value="SBI">State Bank of India (SBI)</option>
-                <option value="HDFC">HDFC Bank</option>
-                <option value="ICICI">ICICI Bank</option>
-                <option value="AXIS">Axis Bank</option>
-                <option value="PNB">Punjab National Bank</option>
-                <option value="BOI">Bank of India</option>
-                <option value="KOTAK">Kotak Mahindra Bank</option>
-                <option value="CANARA">Canara Bank</option>
-                <option value="IDBI">IDBI Bank</option>
-                <option value="YES">Yes Bank</option>
-            </select>
+    <!-- =========================
+         HEADER
+    ========================= -->
+
+    <div class="payment-header">
+
+        <div class="payment-badge">
+            💳 Secure Payment
         </div>
 
-        <div class="mb-3">
-            <label for="card_number" class="form-label">Card Number</label>
-            <input type="text" class="form-control" id="card_number" name="card_number" maxlength="16" required>
+        <h1>
+            Complete <span>Payment</span>
+        </h1>
+
+        <p>
+            Enter your payment details to complete your SmartCanteen order.
+        </p>
+
+    </div>
+
+
+    <!-- =========================
+         PAYMENT CARD
+    ========================= -->
+
+    <div class="payment-card">
+
+        <!-- CARD TOP -->
+
+        <div class="payment-card-top">
+
+            <div class="payment-icon">
+                💳
+            </div>
+
+            <h3>
+                Payment Details
+            </h3>
+
+            <p>
+                Your order is almost ready!
+            </p>
+
         </div>
 
-        <div class="mb-3">
-            <label for="cvv" class="form-label">CVV</label>
-            <input type="password" class="form-control" id="cvv" name="cvv" maxlength="3" required>
+
+        <!-- =========================
+             TOTAL AMOUNT
+        ========================= -->
+
+        <div class="amount-box">
+
+            <span class="amount-label">
+                Total Amount
+            </span>
+
+            <span class="amount-value">
+                ₹{{ total }}
+            </span>
+
         </div>
 
-        <div class="mb-3">
-            <label for="expiry" class="form-label">Expiry Date</label>
-            <input type="month" class="form-control" id="expiry" name="expiry" required>
-        </div>
 
-        <button type="submit" class="btn btn-success">Pay ₹{{ total }}</button>
-    </form>
+        <!-- =========================
+             PAYMENT FORM
+        ========================= -->
+
+        <form
+            method="post"
+            action="{% url 'payment_success' %}"
+            class="payment-form"
+        >
+
+            {% csrf_token %}
+
+
+            <!-- BANK -->
+
+            <div class="form-group">
+
+                <label
+                    for="bank"
+                    class="form-label"
+                >
+                    Select Bank
+                </label>
+
+                <select
+                    class="form-select"
+                    id="bank"
+                    name="bank"
+                    required
+                >
+
+                    <option
+                        value=""
+                        selected
+                        disabled
+                    >
+                        -- Choose Your Bank --
+                    </option>
+
+                    <option value="SBI">
+                        State Bank of India (SBI)
+                    </option>
+
+                    <option value="HDFC">
+                        HDFC Bank
+                    </option>
+
+                    <option value="ICICI">
+                        ICICI Bank
+                    </option>
+
+                    <option value="AXIS">
+                        Axis Bank
+                    </option>
+
+                    <option value="PNB">
+                        Punjab National Bank
+                    </option>
+
+                    <option value="BOI">
+                        Bank of India
+                    </option>
+
+                    <option value="KOTAK">
+                        Kotak Mahindra Bank
+                    </option>
+
+                    <option value="CANARA">
+                        Canara Bank
+                    </option>
+
+                    <option value="IDBI">
+                        IDBI Bank
+                    </option>
+
+                    <option value="YES">
+                        Yes Bank
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- CARD NUMBER -->
+
+            <div class="form-group">
+
+                <label
+                    for="card_number"
+                    class="form-label"
+                >
+                    Card Number
+                </label>
+
+                <div class="card-input-wrapper">
+
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="card_number"
+                        name="card_number"
+                        maxlength="16"
+                        inputmode="numeric"
+                        placeholder="Enter 16-digit card number"
+                        pattern="[0-9]{16}"
+                        required
+                    >
+
+                    <i class="fa-solid fa-credit-card"></i>
+
+                </div>
+
+            </div>
+
+
+            <!-- CVV + EXPIRY -->
+
+            <div class="payment-row">
+
+                <div class="form-group">
+
+                    <label
+                        for="cvv"
+                        class="form-label"
+                    >
+                        CVV
+                    </label>
+
+                    <input
+                        type="password"
+                        class="form-control"
+                        id="cvv"
+                        name="cvv"
+                        maxlength="3"
+                        inputmode="numeric"
+                        placeholder="•••"
+                        pattern="[0-9]{3}"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label
+                        for="expiry"
+                        class="form-label"
+                    >
+                        Expiry Date
+                    </label>
+
+                    <input
+                        type="month"
+                        class="form-control"
+                        id="expiry"
+                        name="expiry"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- PAY -->
+
+            <button
+                type="submit"
+                class="pay-button"
+            >
+                💳 Pay ₹{{ total }}
+            </button>
+
+
+            <div class="security-note">
+                🔒 <span>Secure Checkout</span>
+                — Your payment information is protected.
+            </div>
+
+        </form>
+
+    </div>
+
+
+    <!-- BACK -->
+
+    <a
+        href="{% url 'checkout' %}"
+        class="back-link"
+    >
+        ← Back to Checkout
+    </a>
+
 </div>
-{% endblock %}
+
+</div>
+
+{% endblock content %}
