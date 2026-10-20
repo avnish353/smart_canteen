@@ -553,7 +553,7 @@ Search Results | CampusBite
     <section class="search-hero">
 
         <div class="search-badge">
-            🔍 SmartCanteen Search
+            🔍 CampusBite Search
         </div>
 
         <h1>
@@ -608,90 +608,61 @@ Search Results | CampusBite
 
                             {% if food.name|lower == "samosa" %}
 
-                                <img
-                                    src="{% static 'image/samosa.jpg' %}"
-                                    alt="Samosa"
-                                >
+<div class="menu-image">
+    <img
+        src="{% static 'image/samosa.jpg' %}"
+        alt="Samosa"
+    >
 
-                                <span class="food-badge">
-                                    ⭐ Popular
-                                </span>
-
-
-                            {% elif food.name|lower == "bread bada" %}
-
-                                <img
-                                    src="{% static 'image/breadbada.jpg' %}"
-                                    alt="Bread Bada"
-                                >
-
-                                <span class="food-badge">
-                                    ⭐ Favourite
-                                </span>
+    <span class="food-badge">
+        ⭐ Popular
+    </span>
+</div>
 
 
-                            {% elif food.name|lower == "poha" %}
+{% elif food.name|lower == "bread bada" %}
 
-                                <img
-                                    src="{% static 'image/poha.jpg' %}"
-                                    alt="Poha"
-                                >
+<div class="menu-image">
+    <img
+        src="{% static 'image/breadbada.jpg' %}"
+        alt="Bread Bada"
+    >
 
-                                <span class="food-badge">
-                                    ⭐ Popular
-                                </span>
-
-
-                            {% elif food.name|lower == "kachori" %}
-
-                                <img
-                                    src="{% static 'image/kachori.jpg' %}"
-                                    alt="Kachori"
-                                >
-
-                                <span class="food-badge">
-                                    ⭐ Favourite
-                                </span>
+    <span class="food-badge">
+        ⭐ Favourite
+    </span>
+</div>
 
 
-                            {% elif food.name|lower == "aloo bada" %}
+{% elif food.name|lower == "poha" %}
 
-                                <img
-                                    src="{% static 'image/aloobada.jpg' %}"
-                                    alt="Aloo Bada"
-                                >
+<div class="menu-image">
+    <img
+        src="{% static 'image/poha.jpg' %}"
+        alt="Poha"
+    >
 
-                                <span class="food-badge">
-                                    ⭐ Popular
-                                </span>
-
-
-                            {% elif food.name|lower == "chole bhature" %}
-
-                                <img
-                                    src="{% static 'image/cholebhature.jpg' %}"
-                                    alt="Chole Bhature"
-                                >
-
-                                <span class="food-badge">
-                                    ⭐ Favourite
-                                </span>
+    <span class="food-badge">
+        ⭐ Popular
+    </span>
+</div>
 
 
-                            {% else %}
+{% elif food.name|lower == "kachori" %}
 
-                                <div style="
-                                    width:100%;
-                                    height:100%;
-                                    display:flex;
-                                    align-items:center;
-                                    justify-content:center;
-                                    font-size:60px;
-                                ">
-                                    🍽️
-                                </div>
+<div class="menu-image">
+    <img
+        src="{% static 'image/kachori.jpg' %}"
+        alt="Kachori"
+    >
 
-                            {% endif %}
+    <span class="food-badge">
+        ⭐ Favourite
+    </span>
+</div>
+
+
+{% endif %}
 
                         </div>
 
