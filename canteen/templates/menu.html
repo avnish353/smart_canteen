@@ -6,550 +6,62 @@ Menu | SmartCanteen
 {% endblock title %}
 
 {% block extra_css %}
-<style>
 
-    .menu-page {
-        min-height: 100vh;
-        background: #f8faff;
-    }
+<style> /* ========================= MAIN PAGE ========================= */ .menu-page { min-height: 100vh; background: #f8faff; } /* ========================= HERO SECTION ========================= */ .menu-hero { position: relative; text-align: center; padding: 55px 20px 65px; background: radial-gradient( circle at top left, rgba(65, 105, 225, 0.15), transparent 35% ), radial-gradient( circle at bottom right, rgba(65, 105, 225, 0.12), transparent 35% ), linear-gradient(135deg, #f8fbff, #eef4ff); overflow: hidden; } .menu-hero::before { content: ""; position: absolute; width: 180px; height: 180px; background: rgba(65, 105, 225, 0.08); border-radius: 50%; top: -70px; right: 10%; } .menu-hero::after { content: ""; position: absolute; width: 130px; height: 130px; background: rgba(65, 105, 225, 0.07); border-radius: 50%; bottom: -60px; left: 10%; } .menu-hero-content { position: relative; z-index: 2; } .menu-badge { display: inline-block; background: #e8efff; color: #4169E1; padding: 8px 18px; border-radius: 30px; font-size: 13px; font-weight: 700; margin-bottom: 15px; box-shadow: 0 4px 12px rgba(65, 105, 225, 0.08); } .menu-hero h1 { color: #1d2b53; font-size: clamp(2.2rem, 5vw, 3.2rem); font-weight: 800; margin: 5px 0 12px; } .menu-hero h1 span { color: #4169E1; } .menu-hero p { color: #666; max-width: 650px; margin: auto; font-size: 16px; line-height: 1.7; } /* ========================= CONTAINER ========================= */ .menu-container { max-width: 1200px; margin: auto; padding: 55px 25px 80px; } .menu-message { max-width: 800px; margin: 0 auto 30px; } /* ========================= SECTION HEADER ========================= */ .menu-section-header { text-align: center; margin-bottom: 40px; } .section-label { color: #4169E1; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 8px; } .menu-section-header h2 { color: #1d2b53; font-size: 2rem; font-weight: 800; margin: 0 0 8px; } .menu-section-header p { color: #777; margin: 0; } /* ========================= MENU GRID ========================= */ .menu-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 25px; } /* ========================= FOOD CARD ========================= */ .menu-card { position: relative; background: #ffffff; border-radius: 20px; overflow: hidden; border: 1px solid #e9edfa; box-shadow: 0 5px 18px rgba(31, 63, 163, 0.07); transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; display: flex; flex-direction: column; } .menu-card::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: linear-gradient( 90deg, #4169E1, #6f8ff0 ); } .menu-card:hover { transform: translateY(-8px); border-color: #d8e1ff; box-shadow: 0 16px 35px rgba(31, 63, 163, 0.15); } /* ========================= CARD TOP ICON AREA ========================= */ .menu-card-top { height: 105px; display: flex; align-items: center; justify-content: center; position: relative; background: radial-gradient( circle at center, rgba(65, 105, 225, 0.13), transparent 65% ), linear-gradient( 135deg, #f5f8ff, #edf3ff ); } .food-icon { width: 68px; height: 68px; display: flex; align-items: center; justify-content: center; background: #ffffff; border-radius: 50%; font-size: 34px; box-shadow: 0 7px 18px rgba(65, 105, 225, 0.12); transition: transform 0.3s ease; } .menu-card:hover .food-icon { transform: scale(1.08) rotate(3deg); } /* ========================= CARD CONTENT ========================= */ .menu-card-content { padding: 20px; display: flex; flex-direction: column; flex-grow: 1; } .menu-card h3 { color: #1d2b53; font-size: 19px; font-weight: 750; margin: 0 0 8px; line-height: 1.35; } .menu-card p.description { color: #777; font-size: 14px; line-height: 1.6; margin: 0 0 18px; min-height: 45px; } /* ========================= PRICE ========================= */ .price-row { display: flex; align-items: center; justify-content: space-between; margin-top: auto; margin-bottom: 15px; padding-top: 14px; border-top: 1px solid #eef1f8; } .price-label { color: #999; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.7px; } .price { color: #4169E1; font-size: 21px; font-weight: 800; } /* ========================= ADD CART BUTTON ========================= */ .add-cart-btn { width: 100%; border: none; background: linear-gradient( 135deg, #4169E1, #3155c7 ); color: white; padding: 12px 15px; border-radius: 10px; font-weight: 650; font-size: 14px; cursor: pointer; transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease; box-shadow: 0 6px 14px rgba(65, 105, 225, 0.20); } .add-cart-btn:hover { background: linear-gradient( 135deg, #3155c7, #2747b2 ); transform: translateY(-2px); box-shadow: 0 9px 20px rgba(65, 105, 225, 0.28); } .add-cart-btn:active { transform: translateY(0); } .add-cart-btn a { color: white; text-decoration: none; display: block; } /* ========================= EMPTY MENU ========================= */ .empty-menu { text-align: center; background: white; padding: 60px 20px; border-radius: 20px; border: 1px solid #edf0f7; box-shadow: 0 5px 20px rgba(31, 63, 163, 0.08); color: #777; grid-column: 1 / -1; } .empty-menu-icon { font-size: 50px; margin-bottom: 15px; } .empty-menu h3 { color: #1d2b53; margin-bottom: 8px; } /* ========================= CART BUTTON ========================= */ .cart-section { text-align: center; margin-top: 50px; } .cart-btn { display: inline-flex; align-items: center; gap: 8px; background: #4169E1; color: white; padding: 13px 28px; border-radius: 10px; text-decoration: none; font-weight: 600; box-shadow: 0 7px 18px rgba(65, 105, 225, 0.25); transition: all 0.3s ease; } .cart-btn:hover { background: #3155c7; color: white; transform: translateY(-3px); box-shadow: 0 10px 22px rgba(65, 105, 225, 0.30); } /* ========================= TABLET ========================= */ @media (max-width: 1050px) { .menu-grid { grid-template-columns: repeat(3, 1fr); } } /* ========================= MOBILE / TABLET ========================= */ @media (max-width: 768px) { .menu-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; } .menu-container { padding: 40px 20px 60px; } .menu-card-content { padding: 18px; } } /* ========================= SMALL MOBILE ========================= */ @media (max-width: 550px) { .menu-hero { padding: 45px 15px 55px; } .menu-hero h1 { font-size: 2.2rem; } .menu-container { padding: 35px 15px 55px; } .menu-grid { grid-template-columns: 1fr; max-width: 380px; margin: auto; } .menu-card-top { height: 95px; } } </style>
 
-    .menu-hero {
-        position: relative;
-        text-align: center;
-        padding: 55px 20px 65px;
-        background:
-            radial-gradient(
-                circle at top left,
-                rgba(65, 105, 225, 0.15),
-                transparent 35%
-            ),
-            radial-gradient(
-                circle at bottom right,
-                rgba(65, 105, 225, 0.12),
-                transparent 35%
-            ),
-            linear-gradient(135deg, #f8fbff, #eef4ff);
-        overflow: hidden;
-    }
-
-    .menu-hero::before {
-        content: "";
-        position: absolute;
-        width: 180px;
-        height: 180px;
-        background: rgba(65, 105, 225, 0.08);
-        border-radius: 50%;
-        top: -70px;
-        right: 10%;
-    }
-
-    .menu-hero::after {
-        content: "";
-        position: absolute;
-        width: 130px;
-        height: 130px;
-        background: rgba(65, 105, 225, 0.07);
-        border-radius: 50%;
-        bottom: -60px;
-        left: 10%;
-    }
-
-    .menu-hero-content {
-        position: relative;
-        z-index: 2;
-    }
-
-    .menu-badge {
-        display: inline-block;
-        background: #e8efff;
-        color: #4169E1;
-        padding: 8px 18px;
-        border-radius: 30px;
-        font-size: 13px;
-        font-weight: 700;
-        margin-bottom: 15px;
-    }
-
-    .menu-hero h1 {
-        color: #1d2b53;
-        font-size: clamp(2.2rem, 5vw, 3.2rem);
-        font-weight: 800;
-        margin: 5px 0 12px;
-    }
-
-    .menu-hero h1 span {
-        color: #4169E1;
-    }
-
-    .menu-hero p {
-        color: #666;
-        max-width: 650px;
-        margin: auto;
-        font-size: 16px;
-        line-height: 1.7;
-    }
-
-    .menu-container {
-        max-width: 1200px;
-        margin: auto;
-        padding: 55px 25px 80px;
-    }
-
-    .menu-message {
-        max-width: 800px;
-        margin: 0 auto 30px;
-    }
-
-    .menu-section-header {
-        text-align: center;
-        margin-bottom: 40px;
-    }
-
-    .section-label {
-        color: #4169E1;
-        font-size: 13px;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 1.5px;
-        margin-bottom: 8px;
-    }
-
-    .menu-section-header h2 {
-        color: #1d2b53;
-        font-size: 2rem;
-        font-weight: 800;
-        margin: 0 0 8px;
-    }
-
-    .menu-section-header p {
-        color: #777;
-        margin: 0;
-    }
-
-    .menu-grid {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 25px;
-    }
-
-    .menu-card {
-        background: white;
-        border-radius: 18px;
-        overflow: hidden;
-        border: 1px solid #edf0f7;
-        box-shadow: 0 5px 20px rgba(31, 63, 163, 0.08);
-        transition: all 0.35s ease;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .menu-card:hover {
-        transform: translateY(-8px);
-        box-shadow: 0 15px 35px rgba(31, 63, 163, 0.16);
-    }
-
-    .menu-image {
-        position: relative;
-        height: 200px;
-        overflow: hidden;
-        background: #eef3ff;
-    }
-
-    .menu-image img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-        transition: transform 0.4s ease;
-    }
-
-    .menu-card:hover .menu-image img {
-        transform: scale(1.07);
-    }
-
-    .food-badge {
-        position: absolute;
-        top: 12px;
-        right: 12px;
-        background: white;
-        color: #4169E1;
-        padding: 6px 11px;
-        border-radius: 20px;
-        font-size: 11px;
-        font-weight: 700;
-        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);
-    }
-
-    .menu-card-content {
-        padding: 20px;
-        display: flex;
-        flex-direction: column;
-        flex-grow: 1;
-    }
-
-    .menu-card h3 {
-        color: #1d2b53;
-        font-size: 20px;
-        font-weight: 700;
-        margin: 0 0 8px;
-    }
-
-    .menu-card p.description {
-        color: #777;
-        font-size: 14px;
-        line-height: 1.6;
-        margin: 0 0 15px;
-        min-height: 45px;
-    }
-
-    .price {
-        color: #4169E1;
-        font-size: 20px;
-        font-weight: 800;
-        margin-bottom: 16px;
-    }
-
-    .add-cart-btn {
-        width: 100%;
-        border: none;
-        background: #4169E1;
-        color: white;
-        padding: 11px 15px;
-        border-radius: 9px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        margin-top: auto;
-    }
-
-    .add-cart-btn:hover {
-        background: #3155c7;
-        transform: translateY(-2px);
-    }
-
-    .add-cart-btn a {
-        color: white;
-        text-decoration: none;
-        display: block;
-    }
-
-    .empty-menu {
-        text-align: center;
-        background: white;
-        padding: 50px 20px;
-        border-radius: 18px;
-        box-shadow: 0 5px 20px rgba(31, 63, 163, 0.08);
-        color: #777;
-        grid-column: 1 / -1;
-    }
-
-    .empty-menu-icon {
-        font-size: 50px;
-        margin-bottom: 15px;
-    }
-
-    .empty-menu h3 {
-        color: #1d2b53;
-        margin-bottom: 8px;
-    }
-
-    .cart-section {
-        text-align: center;
-        margin-top: 50px;
-    }
-
-    .cart-btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        background: #4169E1;
-        color: white;
-        padding: 13px 28px;
-        border-radius: 10px;
-        text-decoration: none;
-        font-weight: 600;
-        box-shadow: 0 7px 18px rgba(65, 105, 225, 0.25);
-        transition: all 0.3s ease;
-    }
-
-    .cart-btn:hover {
-        background: #3155c7;
-        color: white;
-        transform: translateY(-3px);
-    }
-
-    @media (max-width: 1050px) {
-        .menu-grid {
-            grid-template-columns: repeat(3, 1fr);
-        }
-    }
-
-    @media (max-width: 768px) {
-        .menu-grid {
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-        }
-
-        .menu-container {
-            padding: 40px 20px 60px;
-        }
-    }
-
-    @media (max-width: 550px) {
-        .menu-hero {
-            padding: 45px 15px 55px;
-        }
-
-        .menu-hero h1 {
-            font-size: 2.2rem;
-        }
-
-        .menu-container {
-            padding: 35px 15px 55px;
-        }
-
-        .menu-grid {
-            grid-template-columns: 1fr;
-            max-width: 380px;
-            margin: auto;
-        }
-
-        .menu-image {
-            height: 220px;
-        }
-    }
-
-</style>
 {% endblock extra_css %}
-
 
 {% block content %}
 
 <div class="menu-page">
+<!-- =========================
+     HERO
+========================= -->
+
+<section class="menu-hero">
+
+    <div class="menu-hero-content">
+
+        <div class="menu-badge">
+            🍽️ Fresh • Delicious • Affordable
+        </div>
+
+        <h1>
+            Explore Our <span>Menu</span> 🍴
+        </h1>
+
+        <p>
+            Discover delicious food, choose your favourite items,
+            and add them to your cart. Order ahead and skip the queue!
+        </p>
+
+    </div>
+
+</section>
+
+
+<div class="menu-container">
 
     <!-- =========================
-         HERO
+         MESSAGES
     ========================= -->
-    <section class="menu-hero">
 
-        <div class="menu-hero-content">
+    {% if messages %}
 
-            <div class="menu-badge">
-                🍽️ Fresh • Delicious • Affordable
-            </div>
+        <div class="menu-message">
 
-            <h1>
-                Explore Our <span>Menu</span> 🍴
-            </h1>
+            {% for message in messages %}
 
-            <p>
-                Discover delicious food, choose your favourite items,
-                and add them to your cart. Order ahead and skip the queue!
-            </p>
+                <div class="alert alert-info alert-dismissible fade show"
+                     role="alert">
 
-        </div>
+                    {{ message }}
 
-    </section>
-
-
-    <div class="menu-container">
-
-        <!-- Messages -->
-
-        {% if messages %}
-
-            <div class="menu-message">
-
-                {% for message in messages %}
-
-                    <div class="alert alert-info alert-dismissible fade show"
-                         role="alert">
-
-                        {{ message }}
-
-                        <button type="button"
-                                class="btn-close"
-                                data-bs-dismiss="alert"
-                                aria-label="Close">
-                        </button>
-
-                    </div>
-
-                {% endfor %}
-
-            </div>
-
-        {% endif %}
-
-
-        <!-- Section Header -->
-
-        <div class="menu-section-header">
-
-            <div class="section-label">
-                Today's Selection
-            </div>
-
-            <h2>
-                Choose Your Favourite
-            </h2>
-
-            <p>
-                Freshly prepared favourites from SmartCanteen
-            </p>
-
-        </div>
-
-
-        <!-- =========================
-             MENU GRID
-        ========================= -->
-
-        <div class="menu-grid">
-
-            {% for item in items %}
-
-                <div class="menu-card">
-
-                    <!-- FOOD IMAGE -->
-
-                    <div class="menu-image">
-
-                        {% if item.name == "Samosa" %}
-
-                            <img
-                                src="{% static 'image/samosa.jpg' %}"
-                                alt="Samosa"
-                            >
-
-                            <span class="food-badge">
-                                ⭐ Popular
-                            </span>
-
-
-                        {% elif item.name == "Bread Bada" %}
-
-                            <img
-                                src="{% static 'image/breadbada.jpg' %}"
-                                alt="Bread Bada"
-                            >
-
-                            <span class="food-badge">
-                                ⭐ Favourite
-                            </span>
-
-
-                        {% elif item.name == "Poha" %}
-
-                            <img
-                                src="{% static 'image/poha.jpg' %}"
-                                alt="Poha"
-                            >
-
-                            <span class="food-badge">
-                                ⭐ Popular
-                            </span>
-
-
-                        {% elif item.name == "Kachori" %}
-
-                            <img
-                                src="{% static 'image/kachori.jpg' %}"
-                                alt="Kachori"
-                            >
-
-                            <span class="food-badge">
-                                ⭐ Favourite
-                            </span>
-
-
-                        {% elif item.name == "Aloo Bada" %}
-
-                            <img
-                                src="{% static 'image/aloobada.jpg' %}"
-                                alt="Aloo Bada"
-                            >
-
-                            <span class="food-badge">
-                                ⭐ Popular
-                            </span>
-
-
-                        {% elif item.name == "Chole Bhature" %}
-
-                            <img
-                                src="{% static 'cholebhature.jpg' %}"
-                                alt="Chole Bhature"
-                            >
-
-                            <span class="food-badge">
-                                ⭐ Favourite
-                            </span>
-
-
-                        {% else %}
-
-                            <!-- Default image -->
-
-                            <div style="
-                                width:100%;
-                                height:100%;
-                                display:flex;
-                                align-items:center;
-                                justify-content:center;
-                                font-size:60px;
-                            ">
-                                🍽️
-                            </div>
-
-                        {% endif %}
-
-                    </div>
-
-
-                    <!-- CARD CONTENT -->
-
-                    <div class="menu-card-content">
-
-                        <h3>
-                            {{ item.name }}
-                        </h3>
-
-                        <p class="description">
-                            {{ item.description }}
-                        </p>
-
-                        <div class="price">
-                            ₹{{ item.price }}
-                        </div>
-
-                        <button class="add-cart-btn">
-
-                            <a href="{% url 'add_to_cart' item.id %}">
-                                🛒 Add to Cart
-                            </a>
-
-                        </button>
-
-                    </div>
-
-                </div>
-
-            {% empty %}
-
-                <div class="empty-menu">
-
-                    <div class="empty-menu-icon">
-                        🍽️
-                    </div>
-
-                    <h3>
-                        No Menu Items Available
-                    </h3>
-
-                    <p>
-                        Please check back later for today's delicious options.
-                    </p>
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="alert"
+                            aria-label="Close">
+                    </button>
 
                 </div>
 
@@ -557,27 +69,138 @@ Menu | SmartCanteen
 
         </div>
 
+    {% endif %}
 
-        <!-- CART BUTTON -->
 
-        {% if cart_count > 0 %}
+    <!-- =========================
+         SECTION HEADER
+    ========================= -->
 
-            <div class="cart-section">
+    <div class="menu-section-header">
 
-                <a href="{% url 'cart' %}" class="cart-btn">
+        <div class="section-label">
+            Today's Selection
+        </div>
 
-                    🛒 View Cart
+        <h2>
+            Choose Your Favourite
+        </h2>
 
-                    ({{ cart_count }}
-                    item{% if cart_count > 1 %}s{% endif %})
+        <p>
+            Freshly prepared favourites from SmartCanteen
+        </p>
 
-                </a>
+    </div>
+
+
+    <!-- =========================
+         MENU GRID
+    ========================= -->
+
+    <div class="menu-grid">
+
+        {% for item in items %}
+
+            <div class="menu-card">
+
+                <!-- CARD ICON -->
+
+                <div class="menu-card-top">
+
+                    <div class="food-icon">
+                        🍽️
+                    </div>
+
+                </div>
+
+
+                <!-- CARD CONTENT -->
+
+                <div class="menu-card-content">
+
+                    <h3>
+                        {{ item.name }}
+                    </h3>
+
+                    <p class="description">
+                        {{ item.description }}
+                    </p>
+
+
+                    <!-- PRICE -->
+
+                    <div class="price-row">
+
+                        <span class="price-label">
+                            Price
+                        </span>
+
+                        <span class="price">
+                            ₹{{ item.price }}
+                        </span>
+
+                    </div>
+
+
+                    <!-- ADD TO CART -->
+
+                    <button class="add-cart-btn">
+
+                        <a href="{% url 'add_to_cart' item.id %}">
+                            🛒 Add to Cart
+                        </a>
+
+                    </button>
+
+                </div>
 
             </div>
 
-        {% endif %}
+        {% empty %}
+
+            <div class="empty-menu">
+
+                <div class="empty-menu-icon">
+                    🍽️
+                </div>
+
+                <h3>
+                    No Menu Items Available
+                </h3>
+
+                <p>
+                    Please check back later for today's delicious options.
+                </p>
+
+            </div>
+
+        {% endfor %}
 
     </div>
+
+
+    <!-- =========================
+         CART BUTTON
+    ========================= -->
+
+    {% if cart_count > 0 %}
+
+        <div class="cart-section">
+
+            <a href="{% url 'cart' %}" class="cart-btn">
+
+                🛒 View Cart
+
+                ({{ cart_count }}
+                item{% if cart_count > 1 %}s{% endif %})
+
+            </a>
+
+        </div>
+
+    {% endif %}
+
+</div>
 
 </div>
 
